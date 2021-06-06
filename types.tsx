@@ -21,3 +21,12 @@ export type TabOneParamList = {
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
 };
+
+export type Record = {
+  walletId: string;
+  transId: string;
+  amount: number;
+  currency: string;
+  transTime: number;
+  updateTime: number;
+}
