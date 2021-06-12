@@ -12,6 +12,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TransactionsScreen from '../screens/TransactionsScreen';
 import TransactionDetailScreen from '../screens/TransactionDetailScreen';
+import EditTransScreen from '../screens/EditTransScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
@@ -32,7 +33,14 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
+        name="EditTrans"
+        component={EditTransScreen}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="add-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Reports"
         component={TabTwoNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
@@ -50,22 +58,22 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const TransactionsStack = createStackNavigator<TabOneParamList>();
 
 function TransactionsNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
+    <TransactionsStack.Navigator>
+      <TransactionsStack.Screen
         name="TransactionsScreen"
         component={TransactionsScreen}
         options={{ headerTitle: 'Transactions' }}
       />
-      <TabOneStack.Screen
+      <TransactionsStack.Screen
         name="TransactionDetailScreen"
         component={TransactionDetailScreen}
         options={{ headerTitle: 'Transaction detail' }}
       />
-    </TabOneStack.Navigator>
+    </TransactionsStack.Navigator>
   );
 }
 
