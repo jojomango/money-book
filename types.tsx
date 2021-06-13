@@ -28,6 +28,7 @@ export type Record = {
   transId: string;
   amount: number;
   currency: string;
+  category: string;
   transTime: number;
   updateTime: number;
-}
+} | null;
