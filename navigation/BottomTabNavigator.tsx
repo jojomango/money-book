@@ -14,7 +14,7 @@ import TransactionsScreen from '../screens/TransactionsScreen';
 import TransactionDetailScreen from '../screens/TransactionDetailScreen';
 import EditTransScreen from '../screens/EditTransScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { BottomTabParamList, TabOneParamList, TabEditParamList, TabTwoParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -23,7 +23,7 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Transactions"
+      initialRouteName="EditTrans"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Transactions"
@@ -34,10 +34,12 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="EditTrans"
-        component={EditTransScreen}
-        options={{
+        component={EditNavigator}
+        options={({ navigation, route }) => ({
+          headerTitle: 'New Transaction',
           tabBarIcon: ({ color }) => <TabBarIcon name="add-outline" color={color} />,
-        }}
+          tabBarLabel: "Add"
+        })}
       />
       <BottomTab.Screen
         name="Reports"
@@ -74,6 +76,20 @@ function TransactionsNavigator() {
         options={{ headerTitle: 'Transaction detail' }}
       />
     </TransactionsStack.Navigator>
+  );
+}
+
+const EditStack = createStackNavigator<TabEditParamList>();
+
+function EditNavigator() {
+  return (
+    <EditStack.Navigator>
+      <EditStack.Screen
+        name="EditScreen"
+        component={EditTransScreen}
+        options={{ headerTitle: 'Add Transaction' }}
+      />
+    </EditStack.Navigator>
   );
 }
 

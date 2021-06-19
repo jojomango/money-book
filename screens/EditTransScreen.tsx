@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react';
+import React, { useState, useEffect, useCallback, useReducer, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux'
 import {
+  SafeAreaView,
   View,
+  Button,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet
@@ -65,8 +67,20 @@ const formReducer = (state: formState, action: formAction) => {
 };
 
 
-const EditTransScreen = () => {
+const EditTransScreen = ({navigation}) => {
   const editRecord: Record = null;
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={() => {}} title="Save" />
+      ),
+      headerLeft: () => (
+        <Button onPress={() => {
+          navigation.goBack();
+        }} title="Cancel" />
+      ),
+    });
+  },[navigation])
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       amount: '',
@@ -93,51 +107,58 @@ const EditTransScreen = () => {
   }, [dispatchFormState]);
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={100}>
-      <ScrollView>
-        <View style={styles.form}>
-          {editRecord ? null : (
+    <SafeAreaView style={styles.screen}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={100}>
+        <ScrollView>
+          <View style={styles.form}>
+            {editRecord ? null : (
+              <Input
+                keyboardType='decimal-pad'
+                returnKeyType='next'
+                id="amount"
+                label="Amount"
+                errorText="Please enter a valid amount!"
+                onInputChange={inputChangedHandler}
+                required
+                min={0}
+              />
+            )}
             <Input
-              keyboardType='decimal-pad'
+              autoCapitalize='sentences'
+              autoCorrect
+              keyboardType='default'
               returnKeyType='next'
-              id="amount"
-              label="Amount"
-              errorText="Please enter a valid amount!"
+              id="category"
+              label="Category"
+              errorText="Please enter a valid category!"
               onInputChange={inputChangedHandler}
+              initialValue={''}
+              initiallyValid={!!editRecord}
               required
-              min={0}
             />
-          )}
-          <Input
-            autoCapitalize='sentences'
-            autoCorrect
-            keyboardType='default'
-            returnKeyType='next'
-            id="category"
-            label="Category"
-            errorText="Please enter a valid category!"
-            onInputChange={inputChangedHandler}
-            initialValue={''}
-            initiallyValid={!!editRecord}
-            required
-          />
-          <Input
-            keyboardType='default'
-            returnKeyType='next'
-            id="note"
-            label="Note"
-            errorText="Please enter a valid image note!"
-            onInputChange={inputChangedHandler}
-            initialValue={''}
-            initiallyValid={!!editRecord}
-          />
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            <Input
+              keyboardType='default'
+              returnKeyType='next'
+              id="note"
+              label="Note"
+              errorText="Please enter a valid image note!"
+              onInputChange={inputChangedHandler}
+              initialValue={''}
+              initiallyValid={!!editRecord}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
+
+
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   form: {
     margin: 20
   },
