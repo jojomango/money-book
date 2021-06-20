@@ -69,24 +69,13 @@ const formReducer = (state: formState, action: formAction) => {
 
 const EditTransScreen = ({navigation}) => {
   const editRecord: Record = null;
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Button onPress={() => {}} title="Save" />
-      ),
-      headerLeft: () => (
-        <Button onPress={() => {
-          navigation.goBack();
-        }} title="Cancel" />
-      ),
-    });
-  },[navigation])
+  
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       amount: '',
       category: '',
       note: '',
-      currency: ''
+      currency: 'TWD'
     },
     inputValidities: {
       amount: true,
@@ -96,6 +85,21 @@ const EditTransScreen = ({navigation}) => {
     },
     formIsValid: false
   });
+  const submitHandler = useCallback(() => {
+    const { amount, category, note, currency } = formState.inputValues;
+  },[formState]);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={submitHandler} title="Save" />
+      ),
+      headerLeft: () => (
+        <Button onPress={() => {
+          navigation.goBack();
+        }} title="Cancel" />
+      ),
+    });
+  },[navigation, submitHandler]);
 
   const inputChangedHandler = useCallback((inputIdentifier, value, isValid) => {
     dispatchFormState({
@@ -111,18 +115,16 @@ const EditTransScreen = ({navigation}) => {
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={100}>
         <ScrollView>
           <View style={styles.form}>
-            {editRecord ? null : (
-              <Input
-                keyboardType='decimal-pad'
-                returnKeyType='next'
-                id="amount"
-                label="Amount"
-                errorText="Please enter a valid amount!"
-                onInputChange={inputChangedHandler}
-                required
-                min={0}
-              />
-            )}
+            <Input
+              keyboardType='decimal-pad'
+              returnKeyType='next'
+              id="amount"
+              label="Amount"
+              errorText="Please enter a valid amount!"
+              onInputChange={inputChangedHandler}
+              required
+              min={0}
+            />
             <Input
               autoCapitalize='sentences'
               autoCorrect
