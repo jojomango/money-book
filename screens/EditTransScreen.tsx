@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import Input from '../components/UI/Input';
+import { addTransaction } from '../store/actions/transaction';
 import { Record } from '../types';
 
 enum inputKeys {
@@ -69,6 +70,7 @@ const formReducer = (state: formState, action: formAction) => {
 
 const EditTransScreen = ({navigation}) => {
   const editRecord: Record = null;
+  const dispatch = useDispatch();
   
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
@@ -86,12 +88,13 @@ const EditTransScreen = ({navigation}) => {
     formIsValid: false
   });
   const submitHandler = useCallback(() => {
-    const { amount, category, note, currency } = formState.inputValues;
+    dispatch(addTransaction(formState.inputValues));
   },[formState]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button onPress={submitHandler} title="Save" />
+        //TODO: valid only form is valid
+        <Button disabled={!formState.formIsValid} onPress={submitHandler} title="Save" />
       ),
       headerLeft: () => (
         <Button onPress={() => {
@@ -99,7 +102,7 @@ const EditTransScreen = ({navigation}) => {
         }} title="Cancel" />
       ),
     });
-  },[navigation, submitHandler]);
+  },[navigation, submitHandler, formState.formIsValid]);
 
   const inputChangedHandler = useCallback((inputIdentifier, value, isValid) => {
     dispatchFormState({

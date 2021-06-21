@@ -33,6 +33,6 @@ export type Record = {
   amount: number;
   currency: string;
   category: string;
-  transTime: number;
+  createTime: number;
   updateTime: number;
 } | null;
