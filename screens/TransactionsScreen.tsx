@@ -1,16 +1,28 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, FlatList } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import { fetchTransactions } from '../store/actions/transaction';
 
 export default function TransactionsScreen() {
+  const dispatch = useDispatch();
+  const records = useSelector(state => state.transactions.records);
+  useEffect(() => {
+    dispatch(fetchTransactions());
+  }, [dispatch])
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Transactions list</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
+    <FlatList
+      data={records}
+      keyExtractor={item => item.createTime}
+      renderItem={itemData => (
+        <View>
+          <Text>{itemData.item.amount} - {itemData.item.createTime}</Text>
+        </View>
+      )}
+    />
   );
 }
 

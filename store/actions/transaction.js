@@ -1,4 +1,5 @@
 export const ADD_TRANSACTION = 'ADD_TRANSACTION';
+export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
 
 export const addTransaction = (trans) => {
   return {
@@ -7,5 +8,11 @@ export const addTransaction = (trans) => {
       ...trans,
       createTime: Date.now(),
     }
+  }
+};
+
+export const fetchTransactions = () => {
+  return {
+    type: FETCH_TRANSACTIONS,
   }
 };

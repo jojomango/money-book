@@ -1,7 +1,10 @@
 import { AnyAction } from 'redux'
 
 import { Record } from '../../types';
-import { ADD_TRANSACTION } from '../actions/transaction';
+import {
+  ADD_TRANSACTION,
+  FETCH_TRANSACTIONS
+} from '../actions/transaction';
 
 type state = {
   records: Array<Record>,
@@ -19,7 +22,10 @@ export default (state = initState, action: AnyAction) => {
         records: state.records.concat(action.transaction)
       }
       break;
-    default: 
+    case FETCH_TRANSACTIONS:
+      return state;
+      break;
+    default:
       return state;
       break;
   }
