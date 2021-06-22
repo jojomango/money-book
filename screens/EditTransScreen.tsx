@@ -89,11 +89,12 @@ const EditTransScreen = ({navigation}) => {
   });
   const submitHandler = useCallback(() => {
     dispatch(addTransaction(formState.inputValues));
+    navigation.navigate('Transactions');
   },[formState]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        //TODO: valid only form is valid
+        //TODO: enable only when form is valid
         <Button disabled={!formState.formIsValid} onPress={submitHandler} title="Save" />
       ),
       headerLeft: () => (
