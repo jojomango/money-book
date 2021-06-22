@@ -41,7 +41,24 @@ type formAction = {
   isValid: boolean;
 }
 
+const initFormState = {
+  inputValues: {
+    amount: '',
+    category: '',
+    note: '',
+    currency: 'TWD'
+  },
+  inputValidities: {
+    amount: true,
+    category: true,
+    note: true,
+    currency: true
+  },
+  formIsValid: false
+}
+
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+const RESET_FORM = 'RESET_FORM';
 
 const formReducer = (state: formState, action: formAction) => {
   if (action.type === FORM_INPUT_UPDATE) {
@@ -62,6 +79,9 @@ const formReducer = (state: formState, action: formAction) => {
       inputValues: updatedValues,
       inputValidities: updatedValidities
     };
+  } else if (action.type === RESET_FORM) {
+    console.log('reset form');
+    return initFormState;
   } else {
     return state;
   }
@@ -72,23 +92,13 @@ const EditTransScreen = ({navigation}) => {
   const editRecord: Record = null;
   const dispatch = useDispatch();
   
-  const [formState, dispatchFormState] = useReducer(formReducer, {
-    inputValues: {
-      amount: '',
-      category: '',
-      note: '',
-      currency: 'TWD'
-    },
-    inputValidities: {
-      amount: true,
-      category: true,
-      note: true,
-      currency: true
-    },
-    formIsValid: false
-  });
+  const [formState, dispatchFormState] = useReducer(formReducer, initFormState);
+
   const submitHandler = useCallback(() => {
     dispatch(addTransaction(formState.inputValues));
+    dispatchFormState({
+      type: RESET_FORM,
+    });
     navigation.navigate('Transactions');
   },[formState]);
   useLayoutEffect(() => {
