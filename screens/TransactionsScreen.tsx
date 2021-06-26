@@ -16,7 +16,7 @@ export default function TransactionsScreen() {
   return (
     <FlatList
       data={records}
-      keyExtractor={item => item.createTime}
+      keyExtractor={item => item.transId}
       renderItem={itemData => (
         <View>
           <Text>{itemData.item.amount} - {itemData.item.createTime}</Text>

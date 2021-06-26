@@ -80,7 +80,6 @@ const formReducer = (state: formState, action: formAction) => {
       inputValidities: updatedValidities
     };
   } else if (action.type === RESET_FORM) {
-    console.log('reset form');
     return initFormState;
   } else {
     return state;
