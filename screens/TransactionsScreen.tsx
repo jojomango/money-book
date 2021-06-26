@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import ProductItem from '../components/UI/TransItem';
 import { fetchTransactions } from '../store/actions/transaction';
 
-export default function TransactionsScreen() {
+export default function TransactionsScreen({navigation}) {
   const dispatch = useDispatch();
   const records = useSelector(state => state.transactions.records);
   useEffect(() => {
@@ -18,9 +19,17 @@ export default function TransactionsScreen() {
       data={records}
       keyExtractor={item => item.transId}
       renderItem={itemData => (
-        <View>
-          <Text>{itemData.item.amount} - {itemData.item.createTime}</Text>
-        </View>
+        <ProductItem 
+          onSelect={() => 
+            navigation.navigate(
+              'EditTrans', 
+              { 
+                screen: 'EditScreen',
+                params: { transId: itemData.item.transId  }
+              })
+          }
+          record={itemData.item}
+        />
       )}
     />
   );

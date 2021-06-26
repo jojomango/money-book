@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useReducer, useLayoutEffect } from 'react';
+import React, { useCallback, useReducer, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux'
 import {
@@ -41,22 +41,6 @@ type formAction = {
   isValid: boolean;
 }
 
-const initFormState = {
-  inputValues: {
-    amount: '',
-    category: '',
-    note: '',
-    currency: 'TWD'
-  },
-  inputValidities: {
-    amount: true,
-    category: true,
-    note: true,
-    currency: true
-  },
-  formIsValid: false
-}
-
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 const RESET_FORM = 'RESET_FORM';
 
@@ -87,9 +71,28 @@ const formReducer = (state: formState, action: formAction) => {
 };
 
 
-const EditTransScreen = ({navigation}) => {
-  const editRecord: Record = null;
+const EditTransScreen = ({navigation, route}) => {
+  const transId = (route.params || {}).transId;
+  
+  const editRecord: Record = useSelector(state => state.transactions.records.find(record => record.transId === transId));
+  console.log('edit screen:', transId, editRecord);
   const dispatch = useDispatch();
+
+  const initFormState = {
+    inputValues: {
+      amount: editRecord ? editRecord.amount : '',
+      category: editRecord ? editRecord.category : '',
+      note: editRecord ? editRecord.note : '',
+      currency: 'TWD'
+    },
+    inputValidities: {
+      amount: true,
+      category: true,
+      note: true,
+      currency: true
+    },
+    formIsValid: !!editRecord
+  }
   
   const [formState, dispatchFormState] = useReducer(formReducer, initFormState);
 
