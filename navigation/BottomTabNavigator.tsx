@@ -86,7 +86,7 @@ function EditNavigator() {
     <EditStack.Navigator>
       <EditStack.Screen
         name="EditScreen"
-        component={EditTransScreen}
+        component={props => <EditTransScreen {...props} />}
         options={{ headerTitle: 'Add Transaction' }}
       />
     </EditStack.Navigator>

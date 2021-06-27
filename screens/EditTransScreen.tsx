@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer, useLayoutEffect } from 'react';
+import React, { useCallback, useReducer, useLayoutEffect, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnyAction } from 'redux'
 import {
@@ -63,22 +63,14 @@ const formReducer = (state: formState, action: formAction) => {
       inputValues: updatedValues,
       inputValidities: updatedValidities
     };
-  } else if (action.type === RESET_FORM) {
-    return initFormState;
-  } else {
+  }
+  else {
     return state;
   }
 };
 
-
-const EditTransScreen = ({navigation, route}) => {
-  const transId = (route.params || {}).transId;
-  
-  const editRecord: Record = useSelector(state => state.transactions.records.find(record => record.transId === transId));
-  console.log('edit screen:', transId, editRecord);
-  const dispatch = useDispatch();
-
-  const initFormState = {
+const initFormstate = (editRecord) => {
+  return {
     inputValues: {
       amount: editRecord ? editRecord.amount : '',
       category: editRecord ? editRecord.category : '',
@@ -93,16 +85,21 @@ const EditTransScreen = ({navigation, route}) => {
     },
     formIsValid: !!editRecord
   }
+}
+
+const EditTransScreen = ({ navigation, route }) => {
+  const transId = (route.params || {}).transId;
+  const editRecord: Record = useSelector(state => state.transactions.records.find(record => record.transId === transId));
+  const dispatch = useDispatch();
   
-  const [formState, dispatchFormState] = useReducer(formReducer, initFormState);
+  const [formState, dispatchFormState] = useReducer(formReducer, editRecord, initFormstate);
+
+  console.log('formstate', formState, editRecord);
 
   const submitHandler = useCallback(() => {
     dispatch(addTransaction(formState.inputValues));
-    dispatchFormState({
-      type: RESET_FORM,
-    });
     navigation.navigate('Transactions');
-  },[formState]);
+  }, [formState]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -115,7 +112,7 @@ const EditTransScreen = ({navigation, route}) => {
         }} title="Cancel" />
       ),
     });
-  },[navigation, submitHandler, formState.formIsValid]);
+  }, [navigation, submitHandler, formState.formIsValid]);
 
   const inputChangedHandler = useCallback((inputIdentifier, value, isValid) => {
     dispatchFormState({
@@ -138,6 +135,8 @@ const EditTransScreen = ({navigation, route}) => {
               label="Amount"
               errorText="Please enter a valid amount!"
               onInputChange={inputChangedHandler}
+              initialValue={editRecord ? editRecord.amount : ''}
+              initiallyValid={!!editRecord}
               required
               min={0}
             />
@@ -150,7 +149,7 @@ const EditTransScreen = ({navigation, route}) => {
               label="Category"
               errorText="Please enter a valid category!"
               onInputChange={inputChangedHandler}
-              initialValue={''}
+              initialValue={editRecord ? editRecord.category : ''}
               initiallyValid={!!editRecord}
               required
             />
@@ -161,7 +160,7 @@ const EditTransScreen = ({navigation, route}) => {
               label="Note"
               errorText="Please enter a valid image note!"
               onInputChange={inputChangedHandler}
-              initialValue={''}
+              initialValue={editRecord ? editRecord.note : ''}
               initiallyValid={!!editRecord}
             />
           </View>
