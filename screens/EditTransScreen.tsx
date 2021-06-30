@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import Input from '../components/UI/Input';
-import { addTransaction } from '../store/actions/transaction';
+import { addTransaction, updateTransaction } from '../store/actions/transaction';
 import { Record } from '../types';
 
 enum inputKeys {
@@ -94,10 +94,12 @@ const EditTransScreen = ({ navigation, route }) => {
   
   const [formState, dispatchFormState] = useReducer(formReducer, editRecord, initFormstate);
 
-  console.log('formstate', formState, editRecord);
-
   const submitHandler = useCallback(() => {
-    dispatch(addTransaction(formState.inputValues));
+    if (transId) {
+      dispatch(updateTransaction({...editRecord, ...formState.inputValues}, transId));
+    } else {
+      dispatch(addTransaction(formState.inputValues));
+    }
     navigation.navigate('Transactions');
   }, [formState]);
   useLayoutEffect(() => {

@@ -86,6 +86,7 @@ function EditNavigator() {
     <EditStack.Navigator>
       <EditStack.Screen
         name="EditScreen"
+        // TODO: fix performance issue: screen re-render 
         component={props => <EditTransScreen {...props} />}
         options={{ headerTitle: 'Add Transaction' }}
       />

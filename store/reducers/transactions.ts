@@ -3,6 +3,7 @@ import { AnyAction } from 'redux'
 import { Record } from '../../types';
 import {
   ADD_TRANSACTION,
+  UPDATE_TRANSACTION,
   FETCH_TRANSACTIONS
 } from '../actions/transaction';
 
@@ -20,6 +21,15 @@ export default (state = initState, action: AnyAction) => {
       return {
         ...state,
         records: state.records.concat(action.transaction)
+      }
+      break;
+    case UPDATE_TRANSACTION:
+      const recordIdx = state.records.findIndex(record => record?.transId === action.id);
+      const updatedRecords = [...state.records];
+      updatedRecords[recordIdx] = action.transaction;
+      return {
+        ...state,
+        records: updatedRecords
       }
       break;
     case FETCH_TRANSACTIONS:
