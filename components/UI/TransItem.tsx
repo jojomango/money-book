@@ -9,6 +9,9 @@ const ProductItem = props => {
   }
   return (
     <TouchableCmp onPress={props.onSelect}>
+      <View>
+        <Text>{record.date}</Text>
+      </View>
       <View style={styles.recordRow}>
         <Text>{record.category}</Text>
         <Text style={styles.amount}>{record.amount}</Text>
