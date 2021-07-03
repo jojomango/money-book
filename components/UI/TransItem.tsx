@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, TouchableNativeFeedback, Platform, StyleSheet } from 'react-native';
 
 const ProductItem = props => {
   const { record } = props;
@@ -9,11 +9,26 @@ const ProductItem = props => {
   }
   return (
     <TouchableCmp onPress={props.onSelect}>
-      <View>
-        <Text>{record.amount} - {record.createTime}</Text>
+      <View style={styles.recordRow}>
+        <Text>{record.category}</Text>
+        <Text style={styles.amount}>{record.amount}</Text>
       </View>
     </TouchableCmp>
   );
 }
+
+const styles = StyleSheet.create({
+  recordRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black'
+  },
+  amount: {
+    fontSize: 16
+  }
+})
 
 export default ProductItem;

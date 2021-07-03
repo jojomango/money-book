@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import ProductItem from '../components/UI/TransItem';
+import TransItem from '../components/UI/TransItem';
 import { fetchTransactions } from '../store/actions/transaction';
 
 export default function TransactionsScreen({navigation}) {
@@ -14,12 +14,14 @@ export default function TransactionsScreen({navigation}) {
     dispatch(fetchTransactions());
   }, [dispatch])
 
+  console.log(records);
+
   return (
     <FlatList
       data={records}
       keyExtractor={item => item.transId}
       renderItem={itemData => (
-        <ProductItem 
+        <TransItem 
           onSelect={() => 
             navigation.navigate(
               'EditTrans', 
