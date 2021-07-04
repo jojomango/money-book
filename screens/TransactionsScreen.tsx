@@ -14,8 +14,6 @@ export default function TransactionsScreen({navigation}) {
     dispatch(fetchTransactions());
   }, [dispatch])
 
-  console.log(records);
-
   return (
     <FlatList
       data={records}

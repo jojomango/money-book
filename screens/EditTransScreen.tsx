@@ -7,7 +7,8 @@ import {
   Button,
   KeyboardAvoidingView,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  Text
 } from 'react-native';
 
 import Input from '../components/UI/Input';
@@ -42,7 +43,6 @@ type formAction = {
 }
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
-const RESET_FORM = 'RESET_FORM';
 
 const formReducer = (state: formState, action: formAction) => {
   if (action.type === FORM_INPUT_UPDATE) {
@@ -89,7 +89,10 @@ const initFormstate = (editRecord) => {
 
 const EditTransScreen = ({ navigation, route }) => {
   const transId = (route.params || {}).transId;
-  const editRecord: Record = useSelector(state => state.transactions.records.find(record => record.transId === transId));
+  let editRecord:Record;
+  if (transId) {
+    editRecord = useSelector(state => state.transactions.records.find(record => record.transId === transId));
+  }
   const dispatch = useDispatch();
   
   const [formState, dispatchFormState] = useReducer(formReducer, editRecord, initFormstate);
@@ -129,6 +132,7 @@ const EditTransScreen = ({ navigation, route }) => {
     <SafeAreaView style={styles.screen}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={100}>
         <ScrollView>
+          <Text>id: {transId}</Text>
           <View style={styles.form}>
             <Input
               keyboardType='decimal-pad'

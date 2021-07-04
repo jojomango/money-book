@@ -1,4 +1,6 @@
 import { AnyAction } from 'redux'
+import dayjs from 'dayjs';
+import produce from 'immer';
 
 import { Record } from '../../types';
 import {
@@ -9,6 +11,8 @@ import {
 
 type state = {
   records: Array<Record>,
+  byDate: Object,
+  byMonth: Object
 }
 
 const initState: state = {
@@ -32,26 +36,52 @@ const initState: state = {
       transId: "29c168f2-1285-4e39-97aa-5bac6d191206",
     },
   ],
-  dateValues: {},
+  byDate: {
+    records: {
+      //'2021-07-03': [{},{}]
+    },
+    allDates: ['2021-07-03'],
+  },
+  byMonth: {
+    records: {
+      //'2021-07': [{},{}]
+    },
+    // []
+    allMonths: ['2021-07'],
+  }
 }
 
 export default (state = initState, action: AnyAction) => {
   switch (action.type) {
     case ADD_TRANSACTION:
-      const dateValues = { ...state.dateValues };
-      if (!dateValues[action.transaction.date]) {
-        dateValues[action.transaction.date] = {
-          records: [action.transaction],
-          sum: +action.transaction.amount
-        }; 
-      } else {
-        dateValues[action.transaction.date].records = dateValues[action.transaction.date].records.concat(action.transaction);
-        dateValues[action.transaction.date].sum +=  action.transaction.amount;
-      }
+      const dateString = action.transaction.date;
+      const monthString = dayjs(action.transaction.createTimeStamp).format('YYYY-MM');
+      const byDateState = produce(state.byDate, draftState => {
+        if(draftState.records[dateString]) {
+          draftState.records[dateString].unshift(action.transaction);
+        } else {
+          draftState.records[dateString] = [action.transaction];
+          draftState.allDates.unshift(dateString);
+        }
+      })
+      const byMonthState = produce(state.byMonth, draftState => {
+        if(draftState.records[dateString]) {
+          draftState.records[monthString].unshift(action.transaction);
+        } else {
+          draftState.records[monthString] = [action.transaction];
+          draftState.allMonths.unshift(monthString);
+        }
+      })
+
+      const records = produce(state.records, draft => {
+        draft.unshift(action.transaction)
+      });
+
       return {
         ...state,
-        records: state.records.concat(action.transaction),
-        dateValues
+        records,
+        byDate: byDateState,
+        byMonth: byMonthState
       }
       break;
     case UPDATE_TRANSACTION:
