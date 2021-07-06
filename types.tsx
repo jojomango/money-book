@@ -21,6 +21,7 @@ export type TabOneParamList = {
 
 export type TabEditParamList = {
   EditScreen: undefined;
+  AddScreen: undefined;
 };
 
 export type TabTwoParamList = {

@@ -89,6 +89,7 @@ const initFormstate = (editRecord) => {
 
 const EditTransScreen = ({ navigation, route }) => {
   const transId = (route.params || {}).transId;
+  console.log('transId:', transId);
   let editRecord:Record;
   if (transId) {
     editRecord = useSelector(state => state.transactions.records.find(record => record.transId === transId));

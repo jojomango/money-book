@@ -38,7 +38,8 @@ export default function BottomTabNavigator() {
         options={({ navigation, route }) => ({
           headerTitle: 'New Transaction',
           tabBarIcon: ({ color }) => <TabBarIcon name="add-outline" color={color} />,
-          tabBarLabel: "Add"
+          tabBarLabel: "Add",
+          unmountOnBlur: true
         })}
       />
       <BottomTab.Screen
@@ -86,9 +87,11 @@ function EditNavigator() {
     <EditStack.Navigator>
       <EditStack.Screen
         name="EditScreen"
-        // TODO: fix performance issue: screen re-render 
-        component={props => <EditTransScreen {...props} />}
-        options={{ headerTitle: 'Add Transaction' }}
+        component={EditTransScreen}
+        getId={({ params }) => params.transId}
+        options={{
+            headerTitle: 'Edit Transaction',
+        }}
       />
     </EditStack.Navigator>
   );
