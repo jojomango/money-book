@@ -106,6 +106,11 @@ const EditTransScreen = ({ navigation, route }) => {
     }
     navigation.navigate('Transactions');
   }, [formState]);
+  useEffect(()=> {
+    navigation.dangerouslyGetParent().addListener('tabPress', () => {
+        navigation.setParams({transId: null});
+    });
+  },[navigation]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -114,7 +119,11 @@ const EditTransScreen = ({ navigation, route }) => {
       ),
       headerLeft: () => (
         <Button onPress={() => {
-          navigation.goBack();
+          if(navigation.canGoBack()) {
+            navigation.goBack();
+          } else {
+            navigation.navigate('Transactions')
+          }
         }} title="Cancel" />
       ),
     });

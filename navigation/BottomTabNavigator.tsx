@@ -39,7 +39,7 @@ export default function BottomTabNavigator() {
           headerTitle: 'New Transaction',
           tabBarIcon: ({ color }) => <TabBarIcon name="add-outline" color={color} />,
           tabBarLabel: "Add",
-          unmountOnBlur: true
+          unmountOnBlur: true,
         })}
       />
       <BottomTab.Screen
@@ -88,7 +88,6 @@ function EditNavigator() {
       <EditStack.Screen
         name="EditScreen"
         component={EditTransScreen}
-        getId={({ params }) => params.transId}
         options={{
             headerTitle: 'Edit Transaction',
         }}
