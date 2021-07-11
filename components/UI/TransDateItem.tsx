@@ -1,19 +1,31 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, TouchableNativeFeedback, Platform, StyleSheet } from 'react-native';
+import TransItem from './TransItem';
 
 const ProductItem = props => {
-  const { record } = props;
+  const { records, date, navigation } = props;
   let TouchableCmp = TouchableOpacity;
   if (Platform.OS === 'android' && Platform.Version >= 21) {
     TouchableCmp = TouchableNativeFeedback;
   }
   return (
-    <TouchableCmp onPress={props.onSelect}>
-      <View style={styles.recordRow}>
-        <Text>{record.category}</Text>
-        <Text style={styles.amount}>{record.amount}</Text>
+      <View>
+        <Text>{date}</Text>
+        {records.map(record => (
+          <TransItem 
+            onSelect={() => 
+              navigation.navigate(
+                'EditTrans', 
+                { 
+                  screen: 'EditScreen',
+                  params: { transId: record.transId  }
+                })
+            }
+          record={record} 
+          />
+        ))
+        }
       </View>
-    </TouchableCmp>
   );
 }
 

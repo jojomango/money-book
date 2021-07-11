@@ -142,7 +142,6 @@ const EditTransScreen = ({ navigation, route }) => {
     <SafeAreaView style={styles.screen}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={100}>
         <ScrollView>
-          <Text>id: {transId}</Text>
           <View style={styles.form}>
             <Input
               keyboardType='decimal-pad'

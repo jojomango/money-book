@@ -4,34 +4,36 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import TransDateItem from '../components/UI/TransDateItem';
 import TransItem from '../components/UI/TransItem';
 import { fetchTransactions } from '../store/actions/transaction';
 
 export default function TransactionsScreen({navigation}) {
   const dispatch = useDispatch();
   const records = useSelector(state => state.transactions.records);
+  const dates = useSelector(state => state.transactions.byDate.allDates);
+  const dateRecords = useSelector(state => state.transactions.byDate.records);
+  const dateData = dates.map(date => dateRecords[date]);
+
+  console.log('dateData', dateData);
   useEffect(() => {
     dispatch(fetchTransactions());
   }, [dispatch])
 
   return (
+    <View>
     <FlatList
-      data={records}
-      keyExtractor={item => item.transId}
+      data={dateData}
+      keyExtractor={item => item[0].date}
       renderItem={itemData => (
-        <TransItem 
-          onSelect={() => 
-            navigation.navigate(
-              'EditTrans', 
-              { 
-                screen: 'EditScreen',
-                params: { transId: itemData.item.transId  }
-              })
-          }
-          record={itemData.item}
+        <TransDateItem 
+          navigation={navigation}
+          date={itemData.item[0].date}
+          records={itemData.item}
         />
       )}
     />
+    </View>
   );
 }
 

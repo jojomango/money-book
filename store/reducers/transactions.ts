@@ -38,7 +38,26 @@ const initState: state = {
   ],
   byDate: {
     records: {
-      //'2021-07-03': [{},{}]
+      '2021-07-03': [
+        {
+          amount: '10',
+          category: "Aaa",
+          createTimeStamp: 1625303069352,
+          date: "2021-07-03",
+          currency: "TWD",
+          note: "Aaa",
+          transId: "5b19d700-015e-4634-a1df-77da3d251651",
+        },
+        {
+          amount: '20',
+          category: "Bbb",
+          createTimeStamp: 1625303083399,
+          date: "2021-07-03",
+          currency: "TWD",
+          note: "Bbb",
+          transId: "29c168f2-1285-4e39-97aa-5bac6d191206",
+        }
+      ]
     },
     allDates: ['2021-07-03'],
   },
