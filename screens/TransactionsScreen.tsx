@@ -15,7 +15,6 @@ export default function TransactionsScreen({navigation}) {
   const dateRecords = useSelector(state => state.transactions.byDate.records);
   const dateData = dates.map(date => dateRecords[date]);
 
-  console.log('dateData', dateData);
   useEffect(() => {
     dispatch(fetchTransactions());
   }, [dispatch])
