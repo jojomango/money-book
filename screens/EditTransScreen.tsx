@@ -12,8 +12,10 @@ import {
 } from 'react-native';
 
 import Input from '../components/UI/Input';
+import DateInput from '../components/UI/DateInput';
 import { addTransaction, updateTransaction } from '../store/actions/transaction';
 import { Record } from '../types';
+import dayjs from 'dayjs';
 
 enum inputKeys {
   amount, category, note, currency
@@ -176,6 +178,13 @@ const EditTransScreen = ({ navigation, route }) => {
               errorText="Please enter a valid image note!"
               onInputChange={inputChangedHandler}
               initialValue={editRecord ? editRecord.note : ''}
+              initiallyValid={!!editRecord}
+            />
+            <DateInput 
+              id="date"
+              label="time"
+              errorText="Please select a valid time"
+              initialValue={editRecord ? editRecord.createTimeStamp: null}
               initiallyValid={!!editRecord}
             />
           </View>

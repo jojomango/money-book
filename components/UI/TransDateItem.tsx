@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TouchableNativeFeedback, Platform, StyleS
 import dayjs from 'dayjs';
 
 import TransItem from './TransItem';
+import { getDayStr } from '../../helpers/date';
 
 const ProductItem = props => {
   const { records, date, navigation } = props;
@@ -16,15 +17,7 @@ const ProductItem = props => {
   const [day, month, year, dayString] = useMemo(() => {
     const dayObj = dayjs(date);
     const dateArr = dayObj.format('ddd-DD-MMM-YYYY').split('-');
-    let dayStr = dateArr[0];
-
-    const todayStr = dayjs().format('yyyy-mm-dd');
-    const yesterdayStr = dayjs().subtract(1, 'day').format('yyyy-mm-dd');
-    if (date === todayStr) {
-      dayStr = 'Today'
-    } else if (date === yesterdayStr) {
-      dayStr = 'Yesterday';
-    }
+    const dayStr = getDayStr(date);
 
     return [dateArr[1], dateArr[2], dateArr[3], dayStr];
   }, [date]);
