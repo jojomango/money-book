@@ -1,8 +1,9 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
-import { getDayStr } from '../../helpers/date';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { getDateStrMs } from '../../helpers/date';
 
 dayjs.extend(advancedFormat);
 
@@ -31,8 +32,9 @@ const inputReducer = (state, action) => {
 };
 
 const Input = props => {
+  const [show, setShow] = useState(false);
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValue ? String(props.initialValue) : getDayStr(dayjs().format('yyyy-mm-dd')),
+    value: props.initialValue ? props.initialValue : dayjs().valueOf(),
     isValid: props.initiallyValid,
     touched: false
   });
@@ -41,7 +43,7 @@ const Input = props => {
 
   useEffect(() => {
     if (inputState.touched) {
-      onInputChange(id, inputState.value, inputState.isValid);
+      // onInputChange(id, inputState.value, inputState.isValid);
     }
   }, [inputState, onInputChange]);
 
@@ -72,22 +74,33 @@ const Input = props => {
   const lostFocusHandler = () => {
     dispatch({ type: INPUT_BLUR });
   }
-  console.log(inputState);
+  const handlePickerConirm = (date) => {
+    dispatch({ type: INPUT_CHANGE, value: dayjs(date).valueOf(), isValid: true})
+    setShow(false);
+  }
   return (
     <View style={styles.formControl}>
       <Text style={styles.label}>{props.label}</Text>
       <TextInput
         {...props}
         style={styles.input}
-        value={inputState.value}
+        value={getDateStrMs(inputState.value)}
         onChangeText={textChangedHandler}
         onBlur={lostFocusHandler}
+        onTouchStart={() => setShow(true)}
       />
       {!inputState.isValid && inputState.touched &&(
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{props.errorText}</Text>
         </View>
       )}
+      <DateTimePickerModal
+        isVisible={show}
+        mode="date"
+        onConfirm={handlePickerConirm}
+        onCancel={() => setShow(false)}
+        date={dayjs(inputState.value).toDate()}
+      />
     </View>
   );
 };
