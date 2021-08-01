@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
@@ -8,7 +8,6 @@ import { getDateStrMs } from '../../helpers/date';
 dayjs.extend(advancedFormat);
 
 const INPUT_CHANGE = 'INPUT_CHANGE';
-const INPUT_BLUR = 'INPUT_BLUR';
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -16,13 +15,6 @@ const inputReducer = (state, action) => {
       return {
         ...state,
         value: action.value,
-        isValid: action.isValid
-      }
-      break;
-    case INPUT_BLUR:
-      return {
-        ...state,
-        touched: true
       }
       break;
     default:
@@ -35,47 +27,13 @@ const Input = props => {
   const [show, setShow] = useState(false);
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue ? props.initialValue : dayjs().valueOf(),
-    isValid: props.initiallyValid,
-    touched: false
   });
 
-  const { onInputChange, id } = props;
-
-  useEffect(() => {
-    if (inputState.touched) {
-      // onInputChange(id, inputState.value, inputState.isValid);
-    }
-  }, [inputState, onInputChange]);
-
-  const textChangedHandler = text => {
-    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let isValid = true;
-    if (props.required && text.trim().length === 0) {
-      isValid = false;
-    }
-    if (props.email && !emailRegex.test(text.toLowerCase())) {
-      isValid = false;
-    }
-    if (props.min != null && +text < props.min) {
-      isValid = false;
-    }
-    if (props.max != null && +text > props.max) {
-      isValid = false;
-    }
-    if (props.minLength != null && text.length < props.minLength) {
-      isValid = false;
-    }
-    dispatch({
-      type: INPUT_CHANGE,
-      value: text,
-      isValid,
-    })
-  }
-  const lostFocusHandler = () => {
-    dispatch({ type: INPUT_BLUR });
-  }
   const handlePickerConirm = (date) => {
-    dispatch({ type: INPUT_CHANGE, value: dayjs(date).valueOf(), isValid: true})
+    const { id, onInputChange } = props;
+    const dateTimeStamp = dayjs(date).valueOf();
+    dispatch({ type: INPUT_CHANGE, value: dateTimeStamp})
+    onInputChange(id, dateTimeStamp, true);
     setShow(false);
   }
   return (
@@ -85,15 +43,8 @@ const Input = props => {
         {...props}
         style={styles.input}
         value={getDateStrMs(inputState.value)}
-        onChangeText={textChangedHandler}
-        onBlur={lostFocusHandler}
         onTouchStart={() => setShow(true)}
       />
-      {!inputState.isValid && inputState.touched &&(
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{props.errorText}</Text>
-        </View>
-      )}
       <DateTimePickerModal
         isVisible={show}
         mode="date"

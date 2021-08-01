@@ -7,15 +7,15 @@ export const UPDATE_TRANSACTION = 'UPDATE_TRANSACTION';
 export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
 
 export const addTransaction = (trans) => {
-  const now = dayjs();
-  const createTimestamp = now.valueOf();
+  const createTimeStamp = trans.createTimeStamp || dayjs().valueOf();
+
   return {
     type: ADD_TRANSACTION,
     transaction: {
       ...trans,
       transId: uuidv4(),
-      createTimeStamp: createTimestamp,
-      date: now.format('YYYY-MM-DD')
+      createTimeStamp,
+      date: dayjs(createTimeStamp).format('YYYY-MM-DD')
     }
   }
 };

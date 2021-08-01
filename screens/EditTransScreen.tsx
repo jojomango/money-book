@@ -77,12 +77,14 @@ const initFormstate = (editRecord) => {
       amount: editRecord ? editRecord.amount : '',
       category: editRecord ? editRecord.category : '',
       note: editRecord ? editRecord.note : '',
+      createTimeStamp: editRecord ? editRecord.createTimeStamp : null,
       currency: 'TWD'
     },
     inputValidities: {
       amount: true,
       category: true,
       note: true,
+      createTimeStamp: true,
       currency: true
     },
     formIsValid: !!editRecord
@@ -181,11 +183,11 @@ const EditTransScreen = ({ navigation, route }) => {
               initiallyValid={!!editRecord}
             />
             <DateInput 
-              id="date"
+              id="createTimeStamp"
               label="time"
               errorText="Please select a valid time"
               initialValue={editRecord ? editRecord.createTimeStamp: null}
-              initiallyValid={!!editRecord}
+              onInputChange={inputChangedHandler}
             />
           </View>
         </ScrollView>
