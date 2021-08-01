@@ -26,6 +26,7 @@ export const updateTransaction = (trans, transId) => {
     id: transId,
     transaction: {
       ...trans,
+      date: dayjs(trans.createTimeStamp).format('YYYY-MM-DD'),
       updateTimeStamp: dayjs().valueOf(),
     }
   }

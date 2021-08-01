@@ -8,6 +8,7 @@ import {
   UPDATE_TRANSACTION,
   FETCH_TRANSACTIONS
 } from '../actions/transaction';
+import { genByDateState, genByMonthState } from '../../helpers/stateGenerator';
 
 type state = {
   records: Array<Record>,
@@ -20,7 +21,7 @@ const initState: state = {
     {
       amount: '15',
       category: "Aaa",
-      createTimeStamp: 1625303069352,
+      createTimeStamp: 1626019200000,
       date: "2021-07-12",
       currency: "TWD",
       note: "Aaa",
@@ -29,8 +30,8 @@ const initState: state = {
     {
       amount: '10',
       category: "Aaa",
-      createTimeStamp: 1625303069352,
-      date: "2021-07-03",
+      createTimeStamp: 1625328000000,
+      date: "2021-07-04",
       currency: "TWD",
       note: "Aaa",
       transId: "5b19d700-015e-4634-a1df-77da3d251651",
@@ -38,7 +39,7 @@ const initState: state = {
     {
       amount: '20',
       category: "Bbb",
-      createTimeStamp: 1625303083399,
+      createTimeStamp: 1625241600000,
       date: "2021-07-03",
       currency: "TWD",
       note: "Bbb",
@@ -49,29 +50,31 @@ const initState: state = {
     records: {
       '2021-07-03': [
         {
-          amount: '10',
-          category: "Aaa",
-          createTimeStamp: 1625303069352,
-          date: "2021-07-03",
-          currency: "TWD",
-          note: "Aaa",
-          transId: "5b19d700-015e-4634-a1df-77da3d251651",
-        },
-        {
           amount: '20',
           category: "Bbb",
-          createTimeStamp: 1625303083399,
+          createTimeStamp: 1625241600000,
           date: "2021-07-03",
           currency: "TWD",
           note: "Bbb",
           transId: "29c168f2-1285-4e39-97aa-5bac6d191206",
         }
       ],
+      '2021-07-04': [
+        {
+          amount: '10',
+          category: "Aaa",
+          createTimeStamp: 1625328000000,
+          date: "2021-07-04",
+          currency: "TWD",
+          note: "Aaa",
+          transId: "5b19d700-015e-4634-a1df-77da3d251651",
+        },
+      ],
       '2021-07-12': [
         {
           amount: '15',
           category: "Aaa",
-          createTimeStamp: 1499788800000,
+          createTimeStamp: 1626019200000,
           date: "2021-07-12",
           currency: "TWD",
           note: "Aaa",
@@ -79,7 +82,7 @@ const initState: state = {
         }
       ]
     },
-    allDates: ['2021-07-12','2021-07-03'],
+    allDates: ['2021-07-12','2021-07-04','2021-07-03'],
   },
   byMonth: {
     records: {
@@ -126,10 +129,21 @@ export default (state = initState, action: AnyAction) => {
     case UPDATE_TRANSACTION:
       const recordIdx = state.records.findIndex(record => record?.transId === action.id);
       const updatedRecords = [...state.records];
+      const prevRecord = updatedRecords[recordIdx];
+      const { date: prevDate } = prevRecord;
+      
       updatedRecords[recordIdx] = action.transaction;
+      let dateState = state.byDate;
+      let monthState = state.byMonth;
+      if (prevDate !== action.transaction.date) {
+        dateState = genByDateState(updatedRecords);
+        monthState =  genByMonthState(updatedRecords);
+      }
       return {
         ...state,
-        records: updatedRecords
+        records: updatedRecords,
+        byDate: dateState,
+        byMonth: monthState,
       }
       break;
     case FETCH_TRANSACTIONS:
