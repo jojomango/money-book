@@ -17,6 +17,7 @@ export type BottomTabParamList = {
 export type TabOneParamList = {
   TransactionsScreen: undefined;
   TransactionDetailScreen: undefined;
+  Books: undefined;
 };
 
 export type TabEditParamList = {

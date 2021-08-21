@@ -1,11 +1,7 @@
 import dayjs from "dayjs";
 
 export const genByDateState = records => {
-  console.log('raw');
-  console.log(records.map(r => [r.date, r.createTimeStamp, typeof r.createTimeStamp]));
   const allrecords = records.sort((a,b) => b.createTimeStamp - a.createTimeStamp);
-  console.log('sorted');
-  console.log(allrecords.map(r => r.date));
   return allrecords.reduce((acc, record) => {
     const dateString = record.date;
     if(acc.records[dateString]) {

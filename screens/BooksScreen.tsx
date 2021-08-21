@@ -2,33 +2,21 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { StyleSheet, FlatList, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { View } from '../components/Themed';
+import { View, Text } from '../components/Themed';
 import TransDateItem from '../components/UI/TransDateItem';
 import { fetchTransactions } from '../store/actions/transaction';
 
-export default function TransactionsScreen({navigation}) {
+export default function BooksScreen({navigation}) {
   const dispatch = useDispatch();
-  const dates = useSelector(state => state.transactions.byDate.allDates);
-  const dateRecords = useSelector(state => state.transactions.byDate.records);
-  const dateData = dates.map(date => dateRecords[date]);
 
-  useEffect(() => {
-    dispatch(fetchTransactions());
-  }, [dispatch])
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <Button onPress={() => {
-            navigation.navigate('Books')
-        }} title="Books" />
-      ),
-    });
-  }, [navigation]);
+  // useEffect(() => {
+  //   dispatch(fetchTransactions());
+  // }, [dispatch])
 
   return (
     <View>
-    <FlatList
+      <Text>Books Screen</Text>
+    {/* <FlatList
       data={dateData}
       keyExtractor={item => item[0].date}
       renderItem={itemData => (
@@ -38,7 +26,7 @@ export default function TransactionsScreen({navigation}) {
           records={itemData.item}
         />
       )}
-    />
+    /> */}
     </View>
   );
 }

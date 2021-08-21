@@ -8,7 +8,6 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
-  Text
 } from 'react-native';
 
 import Input from '../components/UI/Input';
