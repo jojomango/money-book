@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, FlatList, Button } from 'react-native';
+import { StyleSheet, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { Ionicons } from '@expo/vector-icons';
 
 import { View } from '../components/Themed';
 import TransDateItem from '../components/UI/TransDateItem';
@@ -19,9 +20,13 @@ export default function TransactionsScreen({navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button onPress={() => {
-            navigation.navigate('Books')
-        }} title="Books" />
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Books')}>
+          <Ionicons.Button
+            iconStyle={styles.bookIcon}
+            backgroundColor="transparent"
+            name="wallet-outline"
+          />
+        </TouchableWithoutFeedback>
       ),
     });
   }, [navigation]);
@@ -58,4 +63,8 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  bookIcon: {
+    color: 'black',
+    marginLeft: 5
+  }
 });
