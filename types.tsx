@@ -38,3 +38,10 @@ export type Record = {
   createTime: number;
   updateTime: number;
 } | null;
+
+export type Book = {
+  name: string;
+  currency: string;
+  note: string;
+  bookId: string;
+} | null;

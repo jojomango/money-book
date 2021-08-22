@@ -11,6 +11,7 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import transReducer from './store/reducers/transactions';
+import booksReducer from './store/reducers/books';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -21,6 +22,7 @@ const fetchFonts = () => {
 
 const rootReducer = combineReducers({
   transactions: transReducer,
+  books: booksReducer,
 });
 
 const store = createStore(rootReducer,

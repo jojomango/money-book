@@ -3,30 +3,26 @@ import { StyleSheet, FlatList, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { View, Text } from '../components/Themed';
-import TransDateItem from '../components/UI/TransDateItem';
-import { fetchTransactions } from '../store/actions/transaction';
+import { fetchBooks } from '../store/actions/books';
 
-export default function BooksScreen({navigation}) {
+export default function BooksScreen() {
   const dispatch = useDispatch();
+  const books = useSelector(state => state.books);
+  const booksList = books.list;
 
-  // useEffect(() => {
-  //   dispatch(fetchTransactions());
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchBooks());
+  }, [dispatch])
 
   return (
     <View>
-      <Text>Books Screen</Text>
-    {/* <FlatList
-      data={dateData}
-      keyExtractor={item => item[0].date}
+    <FlatList
+      data={booksList}
+      keyExtractor={item => item.bookId}
       renderItem={itemData => (
-        <TransDateItem 
-          navigation={navigation}
-          date={itemData.item[0].date}
-          records={itemData.item}
-        />
+        <Text>{itemData.item.name} {itemData.item.currency}</Text>
       )}
-    /> */}
+    />
     </View>
   );
 }
