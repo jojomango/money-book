@@ -20,10 +20,22 @@ const initState: state = {
       bookId: "000"
     },
     {
+      name: 'SG 日常',
+      currency: "SGD",
+      note: "record my expense in Singapore",
+      bookId: "003"
+    },
+    {
       name: 'Thai travel',
       currency: "THB",
       note: "Thai travel expense",
       bookId: "001"
+    },
+    {
+      name: 'Viet travel',
+      currency: "VNB",
+      note: "Vietnam travel expense",
+      bookId: "002"
     }
   ],
 }

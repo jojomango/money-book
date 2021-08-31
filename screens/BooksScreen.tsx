@@ -3,6 +3,7 @@ import { StyleSheet, FlatList, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { View, Text } from '../components/Themed';
+import BookCard from '../components/UI/BookCard';
 import { fetchBooks } from '../store/actions/books';
 
 export default function BooksScreen() {
@@ -15,12 +16,13 @@ export default function BooksScreen() {
   }, [dispatch])
 
   return (
-    <View>
+    <View style={styles.container}>
     <FlatList
       data={booksList}
+      numColumns={2}
       keyExtractor={item => item.bookId}
       renderItem={itemData => (
-        <Text>{itemData.item.name} {itemData.item.currency}</Text>
+        <BookCard styles={styles.card} item={itemData.item} />
       )}
     />
     </View>
@@ -33,13 +35,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+  card: {
+    width: 150,
+    height: 150,
+    marginRight: 10,
+    marginBottom: 10
+  }
 });
