@@ -18,6 +18,7 @@ export type TabOneParamList = {
   TransactionsScreen: undefined;
   TransactionDetailScreen: undefined;
   Books: undefined;
+  EditBook: undefined;
 };
 
 export type TabEditParamList = {

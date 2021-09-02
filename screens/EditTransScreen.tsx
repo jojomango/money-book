@@ -1,6 +1,5 @@
 import React, { useCallback, useReducer, useLayoutEffect, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AnyAction } from 'redux'
 import {
   SafeAreaView,
   View,
@@ -14,7 +13,6 @@ import Input from '../components/UI/Input';
 import DateInput from '../components/UI/DateInput';
 import { addTransaction, updateTransaction } from '../store/actions/transaction';
 import { Record } from '../types';
-import dayjs from 'dayjs';
 
 enum inputKeys {
   amount, category, note, currency
