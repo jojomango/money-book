@@ -37,7 +37,8 @@ export default function BooksScreen({ navigation }) {
       numColumns={2}
       keyExtractor={item => item.bookId}
       renderItem={itemData => (
-        <BookCard 
+        <BookCard
+          isDefault={itemData.item.bookId === books.defaultBookId}
           styles={styles.card}
           item={itemData.item}
           onSelect={() => 
