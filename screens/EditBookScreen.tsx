@@ -15,7 +15,7 @@ import getSymbolFromCurrency from 'currency-symbol-map'
 import Input from '../components/UI/Input';
 import type { PickerItem } from 'react-native-woodpicker'
 import { Picker } from 'react-native-woodpicker'
-import { addTransaction, updateTransaction } from '../store/actions/transaction';
+import { addBook, updateBook } from '../store/actions/books';
 import { Record } from '../types';
 
 enum inputKeys {
@@ -72,19 +72,19 @@ const formReducer = (state: formState, action: formAction) => {
   }
 };
 
-const initFormstate = (editRecord) => {
+const initFormstate = (editBook) => {
   return {
     inputValues: {
-      name: editRecord ? editRecord.amount : '',
-      note: editRecord ? editRecord.note : '',
-      currency: editRecord ? editRecord.currency : 'TWD'
+      name: editBook ? editBook.amount : '',
+      note: editBook ? editBook.note : '',
+      currency: editBook ? editBook.currency : 'TWD'
     },
     inputValidities: {
       name: true,
       note: true,
       currency: true
     },
-    formIsValid: !!editRecord
+    formIsValid: !!editBook
   }
 }
 
@@ -99,19 +99,19 @@ const getCurrencyOption = (code:string) => currencyOptions.find(c => c.value ===
 const EditBookScreen = ({ navigation, route }) => {
   const bookId = (route.params || {}).bookId;
   console.log('bookId:', bookId);
-  let editRecord:Record;
+  let editBook:Record;
   if (bookId) {
-    editRecord = useSelector(state => state.transactions.records.find(record => record.bookId === bookId));
+    editBook = useSelector(state => state.books.list.find(book => book.bookId === bookId));
   }
   const dispatch = useDispatch();
   
-  const [formState, dispatchFormState] = useReducer(formReducer, editRecord, initFormstate);
+  const [formState, dispatchFormState] = useReducer(formReducer, editBook, initFormstate);
 
   const submitHandler = useCallback(() => {
     if (bookId) {
-      dispatch(updateTransaction({...editRecord, ...formState.inputValues}, bookId));
+      // dispatch(updateBook({...editBook, ...formState.inputValues}, bookId));
     } else {
-      dispatch(addTransaction(formState.inputValues));
+      dispatch(addBook(formState.inputValues));
     }
     navigation.navigate('Books');
   }, [formState]);
@@ -147,8 +147,6 @@ const EditBookScreen = ({ navigation, route }) => {
     })
   }, [dispatchFormState]);
 
-  console.log('state', formState.inputValues);
-
   return (
     <SafeAreaView style={styles.screen}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={100}>
@@ -161,8 +159,8 @@ const EditBookScreen = ({ navigation, route }) => {
               label="Book Name"
               errorText="Please enter a valid amount!"
               onInputChange={inputChangedHandler}
-              initialValue={editRecord ? editRecord.amount : ''}
-              initiallyValid={!!editRecord}
+              initialValue={editBook ? editBook.amount : ''}
+              initiallyValid={!!editBook}
               required
               min={0}
             />
@@ -176,7 +174,6 @@ const EditBookScreen = ({ navigation, route }) => {
                 mode="dialog"
                 style={styles.currencyInput}
                 containerStyle={styles.currencyInputContainer}
-                // textInputStyle={}
             />
             <Input
               keyboardType='default'
@@ -185,8 +182,8 @@ const EditBookScreen = ({ navigation, route }) => {
               label="Note"
               errorText="Please enter a valid image note!"
               onInputChange={inputChangedHandler}
-              initialValue={editRecord ? editRecord.note : ''}
-              initiallyValid={!!editRecord}
+              initialValue={editBook ? editBook.note : ''}
+              initiallyValid={!!editBook}
             />
           </View>
         </ScrollView>

@@ -2,6 +2,7 @@ import { AnyAction } from 'redux'
 
 import { Book } from '../../types';
 import {
+  ADD_BOOK,
   FETCH_BOOKS
 } from '../actions/books';
 
@@ -45,6 +46,15 @@ export default (state = initState, action: AnyAction) => {
     case FETCH_BOOKS:
       return state;
       break;
+    case ADD_BOOK:
+      console.log('logging action', action);
+      return {
+        ...state,
+        list: [
+          ...state.list,
+          action.book
+        ]
+      }
     default:
       return state;
       break;
