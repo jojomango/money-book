@@ -24,14 +24,12 @@ enum inputKeys {
 
 type formState = {
   inputValues: {
-    amount: string;
-    category: string;
+    name: string;
     note: string;
     currency: string;
   };
   inputValidities: {
-    amount: boolean;
-    category: boolean;
+    name: boolean;
     note: boolean;
     currency: boolean;
   };
@@ -75,7 +73,7 @@ const formReducer = (state: formState, action: formAction) => {
 const initFormstate = (editBook) => {
   return {
     inputValues: {
-      name: editBook ? editBook.amount : '',
+      name: editBook ? editBook.name : '',
       note: editBook ? editBook.note : '',
       currency: editBook ? editBook.currency : 'TWD'
     },
@@ -88,28 +86,31 @@ const initFormstate = (editBook) => {
   }
 }
 
-const currencyOptions: Array<PickerItem> = CurrencyCodes.data.map(c => ({
-  label: `${c.code} (${getSymbolFromCurrency(c.code)}) - ${c.currency}`,
+const currencyOptions: Array<PickerItem> = CurrencyCodes.data.map(c => {
+  const symbol = getSymbolFromCurrency(c.code);
+  return {
+  label: `${symbol? `(${symbol})` : ''} ${c.code} - ${c.currency}`,
   value: c.code,
-}))
+  }})
 
 const getCurrencyOption = (code:string) => currencyOptions.find(c => c.value === code);
 
 
 const EditBookScreen = ({ navigation, route }) => {
   const bookId = (route.params || {}).bookId;
-  console.log('bookId:', bookId);
+  
   let editBook:Record;
   if (bookId) {
     editBook = useSelector(state => state.books.list.find(book => book.bookId === bookId));
   }
+  console.log('bookId:', bookId, editBook);
   const dispatch = useDispatch();
   
   const [formState, dispatchFormState] = useReducer(formReducer, editBook, initFormstate);
 
   const submitHandler = useCallback(() => {
     if (bookId) {
-      // dispatch(updateBook({...editBook, ...formState.inputValues}, bookId));
+      dispatch(updateBook({...editBook, ...formState.inputValues}, bookId));
     } else {
       dispatch(addBook(formState.inputValues));
     }
@@ -159,7 +160,7 @@ const EditBookScreen = ({ navigation, route }) => {
               label="Book Name"
               errorText="Please enter a valid amount!"
               onInputChange={inputChangedHandler}
-              initialValue={editBook ? editBook.amount : ''}
+              initialValue={editBook ? editBook.name : ''}
               initiallyValid={!!editBook}
               required
               min={0}

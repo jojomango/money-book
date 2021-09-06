@@ -3,7 +3,8 @@ import { AnyAction } from 'redux'
 import { Book } from '../../types';
 import {
   ADD_BOOK,
-  FETCH_BOOKS
+  FETCH_BOOKS,
+  UPDATE_BOOK
 } from '../actions/books';
 
 type state = {
@@ -47,13 +48,21 @@ export default (state = initState, action: AnyAction) => {
       return state;
       break;
     case ADD_BOOK:
-      console.log('logging action', action);
       return {
         ...state,
         list: [
           ...state.list,
           action.book
         ]
+      }
+    case UPDATE_BOOK:
+      const updatedList = [...state.list];
+      const updatedBookIdx = updatedList.findIndex(book => book?.bookId === action.id);
+      const updatedBook = action.book;
+      updatedList[updatedBookIdx] = action.book;
+      return {
+        ...state,
+        list: updatedList,
       }
     default:
       return state;

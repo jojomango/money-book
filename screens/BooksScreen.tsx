@@ -37,7 +37,18 @@ export default function BooksScreen({ navigation }) {
       numColumns={2}
       keyExtractor={item => item.bookId}
       renderItem={itemData => (
-        <BookCard styles={styles.card} item={itemData.item} />
+        <BookCard 
+          styles={styles.card}
+          item={itemData.item}
+          onSelect={() => 
+            navigation.navigate(
+              'Transactions',
+              {
+                screen: 'EditBook',
+                params: { bookId: itemData.item.bookId }
+              })
+          }
+        />
       )}
     />
     </View>
