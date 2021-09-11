@@ -90,10 +90,11 @@ const initFormstate = (editRecord) => {
 
 const EditTransScreen = ({ navigation, route }) => {
   const transId = (route.params || {}).transId;
-  console.log('transId:', transId);
+  const bookId = (route.params || {}).bookId;
+  console.log('transId:', transId, bookId);
   let editRecord:Record;
-  if (transId) {
-    editRecord = useSelector(state => state.transactions.records.find(record => record.transId === transId));
+  if (transId && bookId) {
+    editRecord = useSelector(state => state.transactions[bookId].records.find(record => record.transId === transId));
   }
   const dispatch = useDispatch();
   

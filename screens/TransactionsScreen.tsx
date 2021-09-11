@@ -9,8 +9,11 @@ import { fetchTransactions } from '../store/actions/transaction';
 
 export default function TransactionsScreen({navigation}) {
   const dispatch = useDispatch();
-  const dates = useSelector(state => state.transactions.byDate.allDates);
-  const dateRecords = useSelector(state => state.transactions.byDate.records);
+  const bookId =  useSelector(state => state.books.defaultBookId);
+  const allTrans = useSelector(state => state.transactions);
+  const bookTrans = allTrans[bookId];
+  const dates = bookTrans.byDate.allDates;
+  const dateRecords = bookTrans.byDate.records;
   const dateData = dates.map(date => dateRecords[date]);
 
   useEffect(() => {
@@ -37,10 +40,11 @@ export default function TransactionsScreen({navigation}) {
       data={dateData}
       keyExtractor={item => item[0].date}
       renderItem={itemData => (
-        <TransDateItem 
+        <TransDateItem
           navigation={navigation}
           date={itemData.item[0].date}
           records={itemData.item}
+          bookId={bookId}
         />
       )}
     />

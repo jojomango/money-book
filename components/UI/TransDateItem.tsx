@@ -6,7 +6,7 @@ import TransItem from './TransItem';
 import { getDayStr } from '../../helpers/date';
 
 const ProductItem = props => {
-  const { records, date, navigation } = props;
+  const { records, date, navigation, bookId } = props;
   let TouchableCmp = TouchableOpacity;
   if (Platform.OS === 'android' && Platform.Version >= 21) {
     TouchableCmp = TouchableNativeFeedback;
@@ -43,7 +43,10 @@ const ProductItem = props => {
               'EditTrans',
               {
                 screen: 'EditScreen',
-                params: { transId: record.transId }
+                params: { 
+                  transId: record.transId, 
+                  bookId 
+                }
               })
           }
           record={record}
