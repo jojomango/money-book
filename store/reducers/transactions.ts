@@ -28,7 +28,6 @@ const initState: state = {
         category: "Aaa",
         createTimeStamp: 1626019200000,
         date: "2021-07-12",
-        currency: "TWD",
         note: "Aaa",
         transId: "5b19d700-015e-4634-a1df-77cbnmdr123",
       },
@@ -37,7 +36,6 @@ const initState: state = {
         category: "Aaa",
         createTimeStamp: 1625328000000,
         date: "2021-07-04",
-        currency: "TWD",
         note: "Aaa",
         transId: "5b19d700-015e-4634-a1df-77da3d251651",
       },
@@ -46,7 +44,6 @@ const initState: state = {
         category: "Bbb",
         createTimeStamp: 1625241600000,
         date: "2021-07-03",
-        currency: "TWD",
         note: "Bbb",
         transId: "29c168f2-1285-4e39-97aa-5bac6d191206",
       },
@@ -59,7 +56,6 @@ const initState: state = {
             category: "Bbb",
             createTimeStamp: 1625241600000,
             date: "2021-07-03",
-            currency: "TWD",
             note: "Bbb",
             transId: "29c168f2-1285-4e39-97aa-5bac6d191206",
           }
@@ -70,7 +66,6 @@ const initState: state = {
             category: "Aaa",
             createTimeStamp: 1625328000000,
             date: "2021-07-04",
-            currency: "TWD",
             note: "Aaa",
             transId: "5b19d700-015e-4634-a1df-77da3d251651",
           },
@@ -81,7 +76,6 @@ const initState: state = {
             category: "Aaa",
             createTimeStamp: 1626019200000,
             date: "2021-07-12",
-            currency: "TWD",
             note: "Aaa",
             transId: "5b19d700-015e-4634-a1df-77cbnmdr123",
           }
@@ -102,9 +96,10 @@ const initState: state = {
 export default (state = initState, action: AnyAction) => {
   switch (action.type) {
     case ADD_TRANSACTION:
+      const bookId = action.transaction.bookId;
       const dateString = action.transaction.date;
       const monthString = dayjs(action.transaction.createTimeStamp).format('YYYY-MM');
-      const byDateState = produce(state.byDate, draftState => {
+      const byDateState = produce(state[bookId].byDate, draftState => {
         if(draftState.records[dateString]) {
           draftState.records[dateString].unshift(action.transaction);
         } else {
@@ -112,7 +107,7 @@ export default (state = initState, action: AnyAction) => {
           draftState.allDates.unshift(dateString);
         }
       })
-      const byMonthState = produce(state.byMonth, draftState => {
+      const byMonthState = produce(state[bookId].byMonth, draftState => {
         if(draftState.records[dateString]) {
           draftState.records[monthString].unshift(action.transaction);
         } else {
@@ -121,15 +116,17 @@ export default (state = initState, action: AnyAction) => {
         }
       })
 
-      const records = produce(state.records, draft => {
+      const records = produce(state[bookId].records, draft => {
         draft.unshift(action.transaction)
       });
 
       return {
         ...state,
-        records,
-        byDate: byDateState,
-        byMonth: byMonthState
+        [bookId]: {
+          records,
+          byDate: byDateState,
+          byMonth: byMonthState
+        }
       }
       break;
     case UPDATE_TRANSACTION:

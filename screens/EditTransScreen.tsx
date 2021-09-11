@@ -3,33 +3,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   SafeAreaView,
   View,
+  Text,
   Button,
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import type { PickerItem } from 'react-native-woodpicker'
+import { Picker } from 'react-native-woodpicker'
 
 import Input from '../components/UI/Input';
 import DateInput from '../components/UI/DateInput';
 import { addTransaction, updateTransaction } from '../store/actions/transaction';
 import { Record } from '../types';
 
-enum inputKeys {
-  amount, category, note, currency
-};
-
 type formState = {
   inputValues: {
     amount: string;
     category: string;
     note: string;
-    currency: string;
+    bookId: string;
   };
   inputValidities: {
     amount: boolean;
     category: boolean;
     note: boolean;
-    currency: boolean;
+    bookId: boolean;
   };
   formIsValid: Boolean;
 }
@@ -68,21 +67,21 @@ const formReducer = (state: formState, action: formAction) => {
   }
 };
 
-const initFormstate = (editRecord) => {
+const initFormstate = ({editRecord, defaultBookId, transBookId}) => {
   return {
     inputValues: {
       amount: editRecord ? editRecord.amount : '',
       category: editRecord ? editRecord.category : '',
       note: editRecord ? editRecord.note : '',
       createTimeStamp: editRecord ? editRecord.createTimeStamp : null,
-      currency: 'TWD'
+      bookId: editRecord ? transBookId : defaultBookId
     },
     inputValidities: {
       amount: true,
       category: true,
       note: true,
       createTimeStamp: true,
-      currency: true
+      bookId: true
     },
     formIsValid: !!editRecord
   }
@@ -90,15 +89,25 @@ const initFormstate = (editRecord) => {
 
 const EditTransScreen = ({ navigation, route }) => {
   const transId = (route.params || {}).transId;
-  const bookId = (route.params || {}).bookId;
-  console.log('transId:', transId, bookId);
+  const transBookId = (route.params || {}).bookId;
+  const booksState = useSelector(state => state.books);
+  const { list: books, defaultBookId } = booksState; 
+
+  const bookOptions: Array<PickerItem> = books.map(b => {
+    return {
+    label: `${b.name} -${b.currency} `,
+    value: b.bookId,
+    }})
+
+  const getBookOption = (bookId:string) => bookOptions.find(b => b.value === bookId);
+
   let editRecord:Record;
-  if (transId && bookId) {
-    editRecord = useSelector(state => state.transactions[bookId].records.find(record => record.transId === transId));
+  if (transId && transBookId) {
+    editRecord = useSelector(state => state.transactions[transBookId].records.find(record => record.transId === transId));
   }
   const dispatch = useDispatch();
   
-  const [formState, dispatchFormState] = useReducer(formReducer, editRecord, initFormstate);
+  const [formState, dispatchFormState] = useReducer(formReducer, {editRecord, defaultBookId, transBookId}, initFormstate);
 
   const submitHandler = useCallback(() => {
     if (transId) {
@@ -157,6 +166,17 @@ const EditTransScreen = ({ navigation, route }) => {
               required
               min={0}
             />
+            <Text style={styles.label}>Book</Text>
+            <Picker
+                item={getBookOption(formState.inputValues.bookId)}
+                items={bookOptions}
+                onItemChange={option => {inputChangedHandler('bookId', option.value, true)}}
+                title="Select Book"
+                placeholder="Select Book"
+                mode="dialog"
+                style={styles.bookInput}
+                containerStyle={styles.bookInputContainer}
+            />
             <Input
               autoCapitalize='sentences'
               autoCorrect
@@ -170,6 +190,13 @@ const EditTransScreen = ({ navigation, route }) => {
               initiallyValid={!!editRecord}
               required
             />
+            <DateInput 
+              id="createTimeStamp"
+              label="time"
+              errorText="Please select a valid time"
+              initialValue={editRecord ? editRecord.createTimeStamp: null}
+              onInputChange={inputChangedHandler}
+            />
             <Input
               keyboardType='default'
               returnKeyType='next'
@@ -179,13 +206,6 @@ const EditTransScreen = ({ navigation, route }) => {
               onInputChange={inputChangedHandler}
               initialValue={editRecord ? editRecord.note : ''}
               initiallyValid={!!editRecord}
-            />
-            <DateInput 
-              id="createTimeStamp"
-              label="time"
-              errorText="Please select a valid time"
-              initialValue={editRecord ? editRecord.createTimeStamp: null}
-              onInputChange={inputChangedHandler}
             />
           </View>
         </ScrollView>
@@ -203,6 +223,20 @@ const styles = StyleSheet.create({
   form: {
     margin: 20
   },
+  label: {
+    fontFamily: 'open-sans-bold',
+    marginVertical: 8
+  },
+  bookInput: {
+    marginHorizontal: 2,
+    height: 50,
+    paddingVertical: 0,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1
+  },
+  bookInputContainer: {
+    paddingVertical: 0,
+  }
 })
 
 export default EditTransScreen;
