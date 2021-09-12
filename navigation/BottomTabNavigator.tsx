@@ -13,6 +13,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import TransactionsScreen from '../screens/TransactionsScreen';
 import TransactionDetailScreen from '../screens/TransactionDetailScreen';
 import BooksScreen from '../screens/BooksScreen';
+import BookDetailScreen from '../screens/BookDetailScreen';
 import EditBookScreen from '../screens/EditBookScreen';
 import EditTransScreen from '../screens/EditTransScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
@@ -82,6 +83,11 @@ function TransactionsNavigator() {
         name="Books"
         component={BooksScreen}
         options={{ headerTitle: 'Money Books' }}
+      />
+      <TransactionsStack.Screen
+        name="BookDetail"
+        component={BookDetailScreen}
+        options={{ headerTitle: 'Book Detail' }}
       />
       <TransactionsStack.Screen
         name="EditBook"

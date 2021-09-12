@@ -45,7 +45,7 @@ export default function BooksScreen({ navigation }) {
             navigation.navigate(
               'Transactions',
               {
-                screen: 'EditBook',
+                screen: 'BookDetail',
                 params: { bookId: itemData.item.bookId }
               })
           }

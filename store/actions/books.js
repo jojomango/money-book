@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const FETCH_BOOKS = 'FETCH_BOOKS';
 export const ADD_BOOK = 'ADD_BOOK';
 export const UPDATE_BOOK = 'UPDATE_BOOK';
+export const SET_DEFAULT_BOOK = 'SET_DEFAULT_BOOK';
 
 export const addBook = (book) => {
   return {
@@ -19,6 +20,13 @@ export const updateBook = (book, bookId) => {
     type: UPDATE_BOOK,
     id: bookId,
     book,
+  }
+}
+
+export const setDefaultBook = bookId => {
+  return {
+    type: SET_DEFAULT_BOOK,
+    bookId,
   }
 }
 

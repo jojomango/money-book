@@ -4,7 +4,8 @@ import { Book } from '../../types';
 import {
   ADD_BOOK,
   FETCH_BOOKS,
-  UPDATE_BOOK
+  UPDATE_BOOK,
+  SET_DEFAULT_BOOK
 } from '../actions/books';
 
 type state = {
@@ -58,14 +59,17 @@ export default (state = initState, action: AnyAction) => {
     case UPDATE_BOOK:
       const updatedList = [...state.list];
       const updatedBookIdx = updatedList.findIndex(book => book?.bookId === action.id);
-      const updatedBook = action.book;
       updatedList[updatedBookIdx] = action.book;
       return {
         ...state,
         list: updatedList,
       }
+    case SET_DEFAULT_BOOK:
+      return {
+        ...state,
+        defaultBookId: action.bookId
+      }
     default:
       return state;
-      break;
   }
 }

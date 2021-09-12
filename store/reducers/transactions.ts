@@ -90,6 +90,39 @@ const initState: state = {
       // []
       allMonths: ['2021-07'],
     }
+  },
+  '001': {
+    records: [],
+    byDate: {
+      records: [],
+      allDates: [],
+    },
+    byMonth: {
+      records: [],
+      allMonth: [],
+    }
+  },
+  '002': {
+    records: [],
+    byDate: {
+      records: [],
+      allDates: [],
+    },
+    byMonth: {
+      records: [],
+      allMonth: [],
+    }
+  },
+  '003': {
+    records: [],
+    byDate: {
+      records: [],
+      allDates: [],
+    },
+    byMonth: {
+      records: [],
+      allMonth: [],
+    }
   }
 }
 
