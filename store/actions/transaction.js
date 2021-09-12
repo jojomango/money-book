@@ -20,10 +20,12 @@ export const addTransaction = (trans) => {
   }
 };
 
-export const updateTransaction = (trans, transId) => {
+export const updateTransaction = (trans, transId, oldBookId) => {
   return {
     type: UPDATE_TRANSACTION,
     id: transId,
+    oldBookId,
+    newBookId: trans.bookId,
     transaction: {
       ...trans,
       date: dayjs(trans.createTimeStamp).format('YYYY-MM-DD'),

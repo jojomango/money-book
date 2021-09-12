@@ -111,7 +111,7 @@ const EditTransScreen = ({ navigation, route }) => {
 
   const submitHandler = useCallback(() => {
     if (transId) {
-      dispatch(updateTransaction({...editRecord, ...formState.inputValues}, transId));
+      dispatch(updateTransaction({...editRecord, ...formState.inputValues}, transId, transBookId));
     } else {
       dispatch(addTransaction(formState.inputValues));
     }

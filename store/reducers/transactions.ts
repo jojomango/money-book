@@ -130,24 +130,46 @@ export default (state = initState, action: AnyAction) => {
       }
       break;
     case UPDATE_TRANSACTION:
-      const recordIdx = state.records.findIndex(record => record?.transId === action.id);
-      const updatedRecords = [...state.records];
-      const prevRecord = updatedRecords[recordIdx];
+      const { oldBookId, newBookId } = action;
+      const recordIdx = state[oldBookId].records.findIndex(record => record?.transId === action.id);
+      let oldBookRecords = [...state[oldBookId].records];
+      const prevRecord = oldBookRecords[recordIdx];
       const { date: prevDate } = prevRecord;
-      
-      updatedRecords[recordIdx] = action.transaction;
-      let dateState = state.byDate;
-      let monthState = state.byMonth;
-      if (prevDate !== action.transaction.date) {
-        dateState = genByDateState(updatedRecords);
-        monthState =  genByMonthState(updatedRecords);
-      }
+      let dateState = state[oldBookId].byDate;
+      let monthState = state[oldBookId].byMonth;
+      if (oldBookId === newBookId) {
+        oldBookRecords[recordIdx] = action.transaction;
+        if (prevDate !== action.transaction.date) {
+          dateState = genByDateState(oldBookRecords);
+          monthState = genByMonthState(oldBookRecords);
+        }
+        return {
+          ...state,
+          [oldBookId]: {
+            records: oldBookRecords,
+            byDate: dateState,
+            byMonth: monthState,
+          }
+        }
+    } else {
+      delete oldBookRecords[recordIdx];
+      dateState = genByDateState(oldBookRecords);
+      monthState = genByMonthState(oldBookRecords);
+      const newBookRecords = state[newBookId] ? [...state[newBookId].records, action.transaction] : [action.transaction];
       return {
         ...state,
-        records: updatedRecords,
-        byDate: dateState,
-        byMonth: monthState,
+        [oldBookId]: {
+          records: oldBookRecords,
+          byDate: dateState,
+          byMonth: monthState,
+        },
+        [newBookId]: {
+          records: newBookRecords,
+          byDate: genByDateState(newBookRecords),
+          byMonth: genByMonthState(newBookRecords),
+        }
       }
+    }
       break;
     case FETCH_TRANSACTIONS:
       return state;
