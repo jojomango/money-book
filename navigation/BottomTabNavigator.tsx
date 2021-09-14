@@ -16,8 +16,8 @@ import BooksScreen from '../screens/BooksScreen';
 import BookDetailScreen from '../screens/BookDetailScreen';
 import EditBookScreen from '../screens/EditBookScreen';
 import EditTransScreen from '../screens/EditTransScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabEditParamList, TabTwoParamList } from '../types';
+import ReportScreen from '../screens/ReportScreen';
+import { BottomTabParamList, TabOneParamList, TabEditParamList, ReportParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -32,7 +32,7 @@ export default function BottomTabNavigator() {
         name="Transactions"
         component={TransactionsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -47,9 +47,9 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Reports"
-        component={TabTwoNavigator}
+        component={ReportNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-pie-chart" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -65,6 +65,8 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TransactionsStack = createStackNavigator<TabOneParamList>();
+
+
 
 function TransactionsNavigator() {
   return (
@@ -114,16 +116,16 @@ function EditNavigator() {
   );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const ReportStack = createStackNavigator<ReportParamList>();
 
-function TabTwoNavigator() {
+function ReportNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
+    <ReportStack.Navigator>
+      <ReportStack.Screen
+        name="ReportScreen"
+        component={ReportScreen}
         options={{ headerTitle: 'Tab Two Title' }}
       />
-    </TabTwoStack.Navigator>
+    </ReportStack.Navigator>
   );
 }

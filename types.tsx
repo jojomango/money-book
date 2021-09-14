@@ -28,7 +28,7 @@ export type TabEditParamList = {
 };
 
 export type TabTwoParamList = {
-  TabTwoScreen: undefined;
+  ReportScreen: undefined;
 };
 
 export type Record = {

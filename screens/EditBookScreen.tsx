@@ -103,7 +103,6 @@ const EditBookScreen = ({ navigation, route }) => {
   if (bookId) {
     editBook = useSelector(state => state.books.list.find(book => book.bookId === bookId));
   }
-  console.log('bookId:', bookId, editBook);
   const dispatch = useDispatch();
   
   const [formState, dispatchFormState] = useReducer(formReducer, editBook, initFormstate);

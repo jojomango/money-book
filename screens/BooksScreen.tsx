@@ -41,13 +41,14 @@ export default function BooksScreen({ navigation }) {
           isDefault={itemData.item.bookId === books.defaultBookId}
           styles={styles.card}
           item={itemData.item}
-          onSelect={() => 
+          onSelect={() => {
             navigation.navigate(
               'Transactions',
               {
-                screen: 'BookDetail',
+                screen: 'TransactionsScreen',
                 params: { bookId: itemData.item.bookId }
               })
+          }
           }
         />
       )}

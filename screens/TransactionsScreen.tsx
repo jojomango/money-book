@@ -7,9 +7,11 @@ import { View } from '../components/Themed';
 import TransDateItem from '../components/UI/TransDateItem';
 import { fetchTransactions } from '../store/actions/transaction';
 
-export default function TransactionsScreen({navigation}) {
+export default function TransactionsScreen({navigation, route}) {
   const dispatch = useDispatch();
-  const bookId =  useSelector(state => state.books.defaultBookId);
+  const defaultBookId = useSelector(state => state.books.defaultBookId);
+  const navBookId = (route.params || {}).bookId;
+  const bookId =  navBookId || defaultBookId;
   const allTrans = useSelector(state => state.transactions);
   const bookTrans = allTrans[bookId];
   const dates = bookTrans.byDate.allDates;
@@ -31,6 +33,22 @@ export default function TransactionsScreen({navigation}) {
           />
         </TouchableWithoutFeedback>
       ),
+      headerRight: () => (
+        <TouchableWithoutFeedback onPress={() => 
+            navigation.navigate(
+              'Transactions',
+              {
+                screen: 'BookDetail',
+                params: { bookId }
+              })
+            }>
+          <Ionicons.Button
+            iconStyle={styles.bookIcon}
+            backgroundColor="transparent"
+            name="ellipsis-vertical"
+          />
+        </TouchableWithoutFeedback>
+      )
     });
   }, [navigation]);
 

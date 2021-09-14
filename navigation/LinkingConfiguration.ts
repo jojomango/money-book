@@ -19,7 +19,7 @@ export default {
           },
           TabTwo: {
             screens: {
-              TabTwoScreen: 'two',
+              ReportScreen: 'two',
             },
           },
         },
