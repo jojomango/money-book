@@ -8,6 +8,7 @@ import {
   UPDATE_TRANSACTION,
   FETCH_TRANSACTIONS
 } from '../actions/transaction';
+import { ADD_BOOK } from '../actions/books';
 import { genByDateState, genByMonthState } from '../../helpers/stateGenerator';
 
 type state = {
@@ -20,8 +21,7 @@ type Book = {
   byMonth: Object
 }
 
-const initState: state = {
-  '000': {
+const generateInitState = (): Book => ({
     records: [
     ],
     byDate: {
@@ -34,7 +34,10 @@ const initState: state = {
       },
       allMonths: [],
     }
-  }
+})
+
+const initState: state = {
+  '000': generateInitState(),
 }
 
 export default (state = initState, action: AnyAction) => {
@@ -118,6 +121,12 @@ export default (state = initState, action: AnyAction) => {
     case FETCH_TRANSACTIONS:
       return state;
       break;
+    case ADD_BOOK:
+      const bookIdNew = action.book.bookId;
+      return {
+        ...state,
+        [bookIdNew]: generateInitState(),
+      }
     default:
       return state;
       break;
