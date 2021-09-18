@@ -1,9 +1,9 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, FlatList, Button, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { View, Text } from '../components/Themed';
+import { View } from '../components/Themed';
 import BookCard from '../components/UI/BookCard';
 import { fetchBooks } from '../store/actions/books';
 

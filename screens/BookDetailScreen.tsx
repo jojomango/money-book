@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, ScrollView, Button, TouchableWithoutFeedback } from 'react-native';
+import React from 'react';
+import { StyleSheet, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 

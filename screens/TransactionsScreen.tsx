@@ -3,7 +3,8 @@ import { StyleSheet, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 
-import { View } from '../components/Themed';
+import { View, Text } from '../components/Themed';
+import EmptyTrans from '../components/UI/EmptyTrans';
 import TransDateItem from '../components/UI/TransDateItem';
 import { fetchTransactions } from '../store/actions/transaction';
 
@@ -53,19 +54,37 @@ export default function TransactionsScreen({navigation, route}) {
   }, [navigation]);
 
   return (
-    <View>
-    <FlatList
-      data={dateData}
-      keyExtractor={item => item[0].date}
-      renderItem={itemData => (
-        <TransDateItem
-          navigation={navigation}
-          date={itemData.item[0].date}
-          records={itemData.item}
-          bookId={bookId}
+    <View style={styles.container}>
+    {
+      (dateData.length > 0) ? (
+        <FlatList
+          data={dateData}
+          keyExtractor={item => item[0].date}
+          renderItem={itemData => (
+            <TransDateItem
+              navigation={navigation}
+              date={itemData.item[0].date}
+              records={itemData.item}
+              bookId={bookId}
+            />
+          )}
         />
-      )}
-    />
+      ) : (
+        <EmptyTrans
+          addTrans={() =>
+            navigation.navigate(
+              'EditTrans',
+              {
+                screen: 'EditScreen',
+                params: {
+                  bookId 
+                }
+              })
+          }
+        />
+      )
+    }
+    
     </View>
   );
 }
