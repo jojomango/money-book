@@ -17,29 +17,11 @@ const initState: state = {
   defaultBookId: '000',
   list: [
     {
-      name: 'Taiwan expense',
+      name: 'Default accounting book',
       currency: "TWD",
-      note: "record my expense in Taiwan",
+      note: "record my expense",
       bookId: "000"
     },
-    {
-      name: 'SG 日常',
-      currency: "SGD",
-      note: "record my expense in Singapore",
-      bookId: "003"
-    },
-    {
-      name: 'Thai travel',
-      currency: "THB",
-      note: "Thai travel expense",
-      bookId: "001"
-    },
-    {
-      name: 'Viet travel',
-      currency: "VNB",
-      note: "Vietnam travel expense",
-      bookId: "002"
-    }
   ],
 }
 
