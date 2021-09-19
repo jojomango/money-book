@@ -74,7 +74,7 @@ const initFormstate = ({editRecord, defaultBookId, transBookId}) => {
       category: editRecord ? editRecord.category : '',
       note: editRecord ? editRecord.note : '',
       createTimeStamp: editRecord ? editRecord.createTimeStamp : null,
-      bookId: editRecord ? transBookId : defaultBookId
+      bookId: transBookId ? transBookId : defaultBookId
     },
     inputValidities: {
       amount: true,
@@ -91,7 +91,7 @@ const EditTransScreen = ({ navigation, route }) => {
   const transId = (route.params || {}).transId;
   const transBookId = (route.params || {}).bookId;
   const booksState = useSelector(state => state.books);
-  const { list: books, defaultBookId } = booksState; 
+  const { list: books, defaultBookId } = booksState;
 
   const bookOptions: Array<PickerItem> = books.map(b => {
     return {

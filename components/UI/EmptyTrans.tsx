@@ -5,7 +5,7 @@ import { View, Text } from '../Themed';
 
 const EmptyTrans = props => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>No transactions in this book</Text>
       <Button
         title="Add a new one?"
@@ -14,5 +14,13 @@ const EmptyTrans = props => {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+})
 
 export default EmptyTrans;
