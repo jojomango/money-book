@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, FlatList, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -56,7 +56,7 @@ export default function TransactionsScreen({navigation, route}) {
   }, [navigation, bookId]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
     {
       (dateData.length > 0) ? (
         <FlatList
@@ -87,15 +87,15 @@ export default function TransactionsScreen({navigation, route}) {
       )
     }
     
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    borderTopWidth: 1,
+    borderTopColor: 'black',
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   title: {
     fontSize: 20,
