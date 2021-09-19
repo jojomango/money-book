@@ -13,6 +13,7 @@ export default function TransactionsScreen({navigation, route}) {
   const defaultBookId = useSelector(state => state.books.defaultBookId);
   const navBookId = (route.params || {}).bookId;
   const bookId =  navBookId || defaultBookId;
+  const book = useSelector(state => state.books.list.find(book => book.bookId === bookId));
   const allTrans = useSelector(state => state.transactions);
   const bookTrans = allTrans[bookId];
   const dates = bookTrans.byDate.allDates;
@@ -21,7 +22,7 @@ export default function TransactionsScreen({navigation, route}) {
 
   useEffect(() => {
     dispatch(fetchTransactions());
-  }, [dispatch])
+  }, [dispatch, bookId])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -49,9 +50,10 @@ export default function TransactionsScreen({navigation, route}) {
             name="ellipsis-vertical"
           />
         </TouchableWithoutFeedback>
-      )
+      ),
+      headerTitle: book.name
     });
-  }, [navigation]);
+  }, [navigation, bookId]);
 
   return (
     <View style={styles.container}>
@@ -98,11 +100,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
   },
   bookIcon: {
     color: 'black',
