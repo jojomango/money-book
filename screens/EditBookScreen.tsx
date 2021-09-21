@@ -115,11 +115,6 @@ const EditBookScreen = ({ navigation, route }) => {
     }
     navigation.navigate('Books');
   }, [formState]);
-  useEffect(()=> {
-    navigation.dangerouslyGetParent().addListener('tabPress', () => {
-        navigation.setParams({transId: null});
-    });
-  },[navigation]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (

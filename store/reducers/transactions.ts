@@ -80,16 +80,12 @@ export default (state = initState, action: AnyAction) => {
       const { oldBookId, newBookId } = action;
       const recordIdx = state[oldBookId].records.findIndex(record => record?.transId === action.id);
       let oldBookRecords = [...state[oldBookId].records];
-      const prevRecord = oldBookRecords[recordIdx];
-      const { date: prevDate } = prevRecord;
       let dateState = state[oldBookId].byDate;
       let monthState = state[oldBookId].byMonth;
       if (oldBookId === newBookId) {
         oldBookRecords[recordIdx] = action.transaction;
-        if (prevDate !== action.transaction.date) {
-          dateState = genByDateState(oldBookRecords);
-          monthState = genByMonthState(oldBookRecords);
-        }
+        dateState = genByDateState(oldBookRecords);
+        monthState = genByMonthState(oldBookRecords);
         return {
           ...state,
           [oldBookId]: {

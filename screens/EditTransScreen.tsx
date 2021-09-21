@@ -121,7 +121,7 @@ const EditTransScreen = ({ navigation, route }) => {
     navigation.dangerouslyGetParent().addListener('tabPress', () => {
         navigation.setParams({transId: null});
     });
-  },[navigation]);
+  },[navigation, transId]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
