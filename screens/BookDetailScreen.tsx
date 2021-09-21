@@ -10,9 +10,10 @@ export default function BookDetailScreen({ navigation, route }) {
   const dispatch = useDispatch();
   const bookId = (route.params || {}).bookId;
   const book = useSelector(state => state.books.list.find(book => book.bookId === bookId));
-  const isDefault = useSelector(state => state.books.defaultBookId) === book.bookId;
+  const isDefault = book && (useSelector(state => state.books.defaultBookId) === book.bookId);
 
   return (
+    book && (
       <View style={styles.container}>
         <View>
         <Text style={styles.title}>{book.name}</Text>
@@ -43,6 +44,7 @@ export default function BookDetailScreen({ navigation, route }) {
           onPress={() => {dispatch(setDefaultBook(book.bookId))}}
         />
       </View>
+    )
   );
 }
 

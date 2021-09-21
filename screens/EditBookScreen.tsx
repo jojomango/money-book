@@ -15,7 +15,7 @@ import getSymbolFromCurrency from 'currency-symbol-map'
 import Input from '../components/UI/Input';
 import type { PickerItem } from 'react-native-woodpicker'
 import { Picker } from 'react-native-woodpicker'
-import { addBook, updateBook } from '../store/actions/books';
+import { addBook, updateBook, deleteBook } from '../store/actions/books';
 import { Record } from '../types';
 
 enum inputKeys {
@@ -103,6 +103,7 @@ const EditBookScreen = ({ navigation, route }) => {
   if (bookId) {
     editBook = useSelector(state => state.books.list.find(book => book.bookId === bookId));
   }
+  const bookList = useSelector(state => state.books.list);
   const dispatch = useDispatch();
   
   const [formState, dispatchFormState] = useReducer(formReducer, editBook, initFormstate);
@@ -180,6 +181,17 @@ const EditBookScreen = ({ navigation, route }) => {
               initialValue={editBook ? editBook.note : ''}
               initiallyValid={!!editBook}
             />
+            {
+              editBook && (bookList.length > 1)  && (
+                <Button 
+                  title="Delete Book"
+                  onPress={() => {
+                    navigation.navigate('Books')
+                    // dispatch(deleteBook(bookId))
+                  }}
+                />
+              )
+            }
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

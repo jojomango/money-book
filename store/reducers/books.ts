@@ -5,6 +5,7 @@ import {
   ADD_BOOK,
   FETCH_BOOKS,
   UPDATE_BOOK,
+  DELETE_BOOK,
   SET_DEFAULT_BOOK
 } from '../actions/books';
 
@@ -46,6 +47,18 @@ export default (state = initState, action: AnyAction) => {
         ...state,
         list: updatedList,
       }
+    case DELETE_BOOK:
+      const { bookId } = action;
+      const newList = state.list.filter(book => book.bookId !== bookId);
+      let newDefaultId = state.defaultBookId
+      if (state.defaultBookId === bookId) {
+        newDefaultId = newList[0].bookId;
+      }
+      return {
+        defaultBookId: newDefaultId,
+        list: newList,
+      }
+
     case SET_DEFAULT_BOOK:
       return {
         ...state,
