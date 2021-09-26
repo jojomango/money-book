@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "money-book",
-    "slug": "money-book",
-    "version": "1.0.0",
+    "slug": "multi-currencies-money-book",
+    "version": "0.5.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -19,13 +19,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "0.5.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "versionCode": 1,
+      "package": "com.jojomango.moneybook"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
