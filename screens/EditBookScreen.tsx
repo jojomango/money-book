@@ -181,7 +181,7 @@ const EditBookScreen = ({ navigation, route }) => {
               initialValue={editBook ? editBook.note : ''}
               initiallyValid={!!editBook}
             />
-            {
+            {/* {
               editBook && (bookList.length > 1)  && (
                 <Button 
                   title="Delete Book"
@@ -191,7 +191,7 @@ const EditBookScreen = ({ navigation, route }) => {
                   }}
                 />
               )
-            }
+            } */}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
