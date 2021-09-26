@@ -5,6 +5,9 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as Font from 'expo-font';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Apploading from 'expo-app-loading';
 
 import useCachedResources from './hooks/useCachedResources';
@@ -20,14 +23,21 @@ const fetchFonts = () => {
   });
 }
 
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+};
+
 const rootReducer = combineReducers({
-  transactions: transReducer,
-  books: booksReducer,
+  transactions: persistReducer(persistConfig, transReducer),
+  books: persistReducer(persistConfig, booksReducer)
 });
 
 const store = createStore(rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
+
+const persistor = persistStore(store);
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -49,10 +59,12 @@ export default function App() {
   } else {
     return (
       <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
         <SafeAreaProvider>
           <Navigation colorScheme={colorScheme} />
           <StatusBar />
         </SafeAreaProvider>
+        </PersistGate>
       </Provider>
     );
   }
