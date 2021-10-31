@@ -1,10 +1,17 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, TouchableNativeFeedback, Platform, StyleSheet } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
+  StyleSheet,
+} from "react-native";
 
-const ProductItem = props => {
+const ProductItem = (props) => {
   const { record } = props;
   let TouchableCmp = TouchableOpacity;
-  if (Platform.OS === 'android' && Platform.Version >= 21) {
+  if (Platform.OS === "android" && Platform.Version >= 21) {
     TouchableCmp = TouchableNativeFeedback;
   }
   return (
@@ -15,20 +22,20 @@ const ProductItem = props => {
       </View>
     </TouchableCmp>
   );
-}
+};
 
 const styles = StyleSheet.create({
   recordRow: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: 'black'
+    borderBottomColor: "black",
   },
   amount: {
-    fontSize: 16
-  }
-})
+    fontSize: 16,
+  },
+});
 
 export default ProductItem;

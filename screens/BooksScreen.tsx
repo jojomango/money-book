@@ -1,25 +1,27 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, FlatList, TouchableWithoutFeedback } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useLayoutEffect } from "react";
+import { StyleSheet, FlatList, TouchableWithoutFeedback } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
 
-import { View } from '../components/Themed';
-import BookCard from '../components/UI/BookCard';
-import { fetchBooks } from '../store/actions/books';
+import { View } from "../components/Themed";
+import BookCard from "../components/UI/BookCard";
+import { fetchBooks } from "../store/actions/books";
 
 export default function BooksScreen({ navigation }) {
   const dispatch = useDispatch();
-  const books = useSelector(state => state.books);
+  const books = useSelector((state) => state.books);
   const booksList = books.list;
 
   useEffect(() => {
     dispatch(fetchBooks());
-  }, [dispatch])
+  }, [dispatch]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('EditBook')}>
+        <TouchableWithoutFeedback
+          onPress={() => navigation.navigate("EditBook")}
+        >
           <Ionicons.Button
             iconStyle={styles.headerIcon}
             backgroundColor="transparent"
@@ -32,27 +34,24 @@ export default function BooksScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-    <FlatList
-      data={booksList}
-      numColumns={2}
-      keyExtractor={item => item.bookId}
-      renderItem={itemData => (
-        <BookCard
-          isDefault={itemData.item.bookId === books.defaultBookId}
-          styles={styles.card}
-          item={itemData.item}
-          onSelect={() => {
-            navigation.navigate(
-              'Transactions',
-              {
-                screen: 'TransactionsScreen',
-                params: { bookId: itemData.item.bookId }
-              })
-          }
-          }
-        />
-      )}
-    />
+      <FlatList
+        data={booksList}
+        numColumns={2}
+        keyExtractor={(item) => item.bookId}
+        renderItem={(itemData) => (
+          <BookCard
+            isDefault={itemData.item.bookId === books.defaultBookId}
+            styles={styles.card}
+            item={itemData.item}
+            onSelect={() => {
+              navigation.navigate("Transactions", {
+                screen: "TransactionsScreen",
+                params: { bookId: itemData.item.bookId },
+              });
+            }}
+          />
+        )}
+      />
     </View>
   );
 }
@@ -60,18 +59,18 @@ export default function BooksScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 20,
   },
   card: {
     width: 150,
     height: 150,
     marginRight: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   headerIcon: {
-    color: 'black',
-    marginRight: 5
-  }
+    color: "black",
+    marginRight: 5,
+  },
 });

@@ -1,10 +1,10 @@
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
-import dayjs from 'dayjs';
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
+import dayjs from "dayjs";
 
-export const ADD_TRANSACTION = 'ADD_TRANSACTION';
-export const UPDATE_TRANSACTION = 'UPDATE_TRANSACTION';
-export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
+export const ADD_TRANSACTION = "ADD_TRANSACTION";
+export const UPDATE_TRANSACTION = "UPDATE_TRANSACTION";
+export const FETCH_TRANSACTIONS = "FETCH_TRANSACTIONS";
 
 export const addTransaction = (trans) => {
   const createTimeStamp = trans.createTimeStamp || dayjs().valueOf();
@@ -15,9 +15,9 @@ export const addTransaction = (trans) => {
       ...trans,
       transId: uuidv4(),
       createTimeStamp,
-      date: dayjs(createTimeStamp).format('YYYY-MM-DD')
-    }
-  }
+      date: dayjs(createTimeStamp).format("YYYY-MM-DD"),
+    },
+  };
 };
 
 export const updateTransaction = (trans, transId, oldBookId) => {
@@ -28,14 +28,14 @@ export const updateTransaction = (trans, transId, oldBookId) => {
     newBookId: trans.bookId,
     transaction: {
       ...trans,
-      date: dayjs(trans.createTimeStamp).format('YYYY-MM-DD'),
+      date: dayjs(trans.createTimeStamp).format("YYYY-MM-DD"),
       updateTimeStamp: dayjs().valueOf(),
-    }
-  }
-}
+    },
+  };
+};
 
 export const fetchTransactions = () => {
   return {
     type: FETCH_TRANSACTIONS,
-  }
+  };
 };

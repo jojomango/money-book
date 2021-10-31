@@ -46,4 +46,4 @@ export type Book = {
   currency: string;
   note: string;
   bookId: string;
-}
+};
