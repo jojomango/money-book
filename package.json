@@ -7,17 +7,17 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.json",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.json --max-warnings 0",
     "lint-and-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.json --fix",
-    "prettier-format": "prettier --config .prettierrc '**/*.{json,js,jsx,ts,tsx,css,scss,md}' --write"
+    "prettier-format": "prettier --config .prettierrc '**/*.{json,js,jsx,ts,tsx,css,scss,md}' --write",
+    "prepare": "husky install"
   },
   "jest": {
     "preset": "jest-expo"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn prettier-format && yarn lint"
-    }
+  "lint-staged": {
+    "*.{json,js,jsx,ts,tsx,css,scss,md}": "prettier --config .prettierrc --write",
+    "*.{ts,tsx,js,jsx,json}": "eslint --cache --fix"
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.0",
@@ -71,6 +71,7 @@
     "eslint-plugin-react": "^7.26.1",
     "husky": "^7.0.4",
     "jest-expo": "~41.0.0",
+    "lint-staged": ">=10",
     "prettier": "^2.4.1",
     "redux-devtools-extension": "^2.13.9",
     "typescript": "~4.0.0"
