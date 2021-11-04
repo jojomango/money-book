@@ -52,7 +52,10 @@ export default function App() {
         onFinish={() => {
           setFontLoaded(true);
         }}
-        onError={console.warn}
+        onError={
+          // eslint-disable-next-line no-console
+          console.warn
+        }
       />
     );
   }
