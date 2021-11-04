@@ -41,7 +41,7 @@ type formState = {
     note: boolean;
     currency: boolean;
   };
-  formIsValid: Boolean;
+  formIsValid: boolean;
 };
 
 type formAction = {

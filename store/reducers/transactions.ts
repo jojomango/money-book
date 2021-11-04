@@ -80,7 +80,7 @@ export default (state = initState, action: AnyAction) => {
       const recordIdx = state[oldBookId].records.findIndex(
         (record) => record?.transId === action.id,
       );
-      let oldBookRecords = [...state[oldBookId].records];
+      const oldBookRecords = [...state[oldBookId].records];
       let dateState = state[oldBookId].byDate;
       let monthState = state[oldBookId].byMonth;
       if (oldBookId === newBookId) {

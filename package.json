@@ -19,6 +19,11 @@
     "*.{json,js,jsx,ts,tsx,css,scss,md}": "prettier --config .prettierrc --write",
     "*.{ts,tsx,js,jsx,json}": "eslint --cache --fix"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {
     "@expo/vector-icons": "^12.0.0",
     "@react-native-async-storage/async-storage": "^1.15.8",

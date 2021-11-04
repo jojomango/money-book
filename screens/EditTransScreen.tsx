@@ -38,7 +38,7 @@ type formState = {
     note: boolean;
     bookId: boolean;
   };
-  formIsValid: Boolean;
+  formIsValid: boolean;
 };
 
 type formAction = {
