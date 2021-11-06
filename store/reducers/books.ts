@@ -36,7 +36,7 @@ export default (state = initState, action: AnyAction) => {
         ...state,
         list: [...state.list, action.book],
       };
-    case UPDATE_BOOK:
+    case UPDATE_BOOK: {
       const updatedList = [...state.list];
       const updatedBookIdx = updatedList.findIndex(
         (book) => book?.bookId === action.id,
@@ -46,7 +46,8 @@ export default (state = initState, action: AnyAction) => {
         ...state,
         list: updatedList,
       };
-    case DELETE_BOOK:
+    }
+    case DELETE_BOOK: {
       const { bookId } = action;
       const newList = state.list.filter((book) => book.bookId !== bookId);
       let newDefaultId = state.defaultBookId;
@@ -57,7 +58,7 @@ export default (state = initState, action: AnyAction) => {
         defaultBookId: newDefaultId,
         list: newList,
       };
-
+    }
     case SET_DEFAULT_BOOK:
       return {
         ...state,

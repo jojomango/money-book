@@ -17,8 +17,18 @@ type state = {
 
 type Book = {
   records: Array<Record>;
-  byDate: Object;
-  byMonth: Object;
+  byDate: {
+    records: {
+      [date: string]: Record;
+    };
+    allDates: Array<string>;
+  };
+  byMonth: {
+    records: {
+      [month: string]: Record;
+    };
+    allMonths: Array<string>;
+  };
 };
 
 const generateInitState = (): Book => ({
@@ -39,7 +49,7 @@ const initState: state = {
 
 export default (state = initState, action: AnyAction) => {
   switch (action.type) {
-    case ADD_TRANSACTION:
+    case ADD_TRANSACTION: {
       const bookId = action.transaction.bookId;
       const dateString = action.transaction.date;
       const monthString = dayjs(action.transaction.createTimeStamp).format(
@@ -75,7 +85,8 @@ export default (state = initState, action: AnyAction) => {
         },
       };
       break;
-    case UPDATE_TRANSACTION:
+    }
+    case UPDATE_TRANSACTION: {
       const { oldBookId, newBookId } = action;
       const recordIdx = state[oldBookId].records.findIndex(
         (record) => record?.transId === action.id,
@@ -117,15 +128,17 @@ export default (state = initState, action: AnyAction) => {
         };
       }
       break;
+    }
     case FETCH_TRANSACTIONS:
       return state;
       break;
-    case ADD_BOOK:
+    case ADD_BOOK: {
       const bookIdNew = action.book.bookId;
       return {
         ...state,
         [bookIdNew]: generateInitState(),
       };
+    }
     default:
       return state;
       break;

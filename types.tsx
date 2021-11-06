@@ -33,7 +33,7 @@ export type TabTwoParamList = {
 
 export type Record = {
   walletId: string;
-  transId: string;
+  transId?: string;
   amount: number;
   currency: string;
   category: string;
