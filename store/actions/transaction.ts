@@ -9,7 +9,7 @@ export const UPDATE_TRANSACTION = "UPDATE_TRANSACTION";
 export const FETCH_TRANSACTIONS = "FETCH_TRANSACTIONS";
 
 export const addTransaction = (trans: Record) => {
-  const createTimeStamp = trans.createTimeStamp || dayjs().valueOf();
+  const createTimeStamp = trans?.createTimeStamp || dayjs().valueOf();
 
   return {
     type: ADD_TRANSACTION,
@@ -31,10 +31,10 @@ export const updateTransaction = (
     type: UPDATE_TRANSACTION,
     id: transId,
     oldBookId,
-    newBookId: trans.bookId,
+    newBookId: trans?.bookId,
     transaction: {
       ...trans,
-      date: dayjs(trans.createTimeStamp).format("YYYY-MM-DD"),
+      date: dayjs(trans?.createTimeStamp).format("YYYY-MM-DD"),
       updateTimeStamp: dayjs().valueOf(),
     },
   };

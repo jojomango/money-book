@@ -6,7 +6,9 @@ export const UPDATE_BOOK = "UPDATE_BOOK";
 export const DELETE_BOOK = "DELETE_BOOK";
 export const SET_DEFAULT_BOOK = "SET_DEFAULT_BOOK";
 
-export const addBook = (book) => {
+import { Book } from "../../types";
+
+export const addBook = (book: Book) => {
   return {
     type: ADD_BOOK,
     book: {
@@ -16,7 +18,7 @@ export const addBook = (book) => {
   };
 };
 
-export const updateBook = (book, bookId) => {
+export const updateBook = (book: Book, bookId: string) => {
   return {
     type: UPDATE_BOOK,
     id: bookId,
@@ -24,14 +26,14 @@ export const updateBook = (book, bookId) => {
   };
 };
 
-export const deleteBook = (bookId) => {
+export const deleteBook = (bookId: string) => {
   return {
     type: DELETE_BOOK,
     bookId,
   };
 };
 
-export const setDefaultBook = (bookId) => {
+export const setDefaultBook = (bookId: string) => {
   return {
     type: SET_DEFAULT_BOOK,
     bookId,

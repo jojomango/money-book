@@ -32,13 +32,13 @@ export type TabTwoParamList = {
 };
 
 export type Record = {
-  walletId: string;
+  bookId: string;
   transId?: string;
   amount: number;
   currency: string;
   category: string;
-  createTime: number;
-  updateTime: number;
+  createTimeStamp: number;
+  updateTimeStamp: number;
 } | null;
 
 export type Book = {
