@@ -8,7 +8,17 @@ export const ADD_TRANSACTION = "ADD_TRANSACTION";
 export const UPDATE_TRANSACTION = "UPDATE_TRANSACTION";
 export const FETCH_TRANSACTIONS = "FETCH_TRANSACTIONS";
 
-export const addTransaction = (trans: Record) => {
+type AddTransaction = {
+  type: typeof ADD_TRANSACTION;
+  transaction: Record & { date: string };
+};
+
+type UpdateTransaction = {
+  type: typeof UPDATE_TRANSACTION;
+  transaction: Record & { date: string };
+};
+
+export const addTransaction = (trans: Record): AddTransaction => {
   const createTimeStamp = trans?.createTimeStamp || dayjs().valueOf();
 
   return {
@@ -26,7 +36,7 @@ export const updateTransaction = (
   trans: Record,
   transId: string,
   oldBookId: string,
-) => {
+): UpdateTransaction => {
   return {
     type: UPDATE_TRANSACTION,
     id: transId,
@@ -40,8 +50,10 @@ export const updateTransaction = (
   };
 };
 
-export const fetchTransactions = () => {
-  return {
-    type: FETCH_TRANSACTIONS,
-  };
-};
+// export const fetchTransactions = () => {
+//   return {
+//     type: FETCH_TRANSACTIONS,
+//   };
+// };
+
+export type TransactionActionsI = AddTransaction | UpdateTransaction;

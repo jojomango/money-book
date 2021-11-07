@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { View, Text } from "../components/Themed";
 import EmptyTrans from "../components/UI/EmptyTrans";
 import TransDateItem from "../components/UI/TransDateItem";
-import { fetchTransactions } from "../store/actions/transaction";
+// import { fetchTransactions } from "../store/actions/transaction";
 
 export default function TransactionsScreen({ navigation, route }) {
   const dispatch = useDispatch();
@@ -27,9 +27,9 @@ export default function TransactionsScreen({ navigation, route }) {
   const dateRecords = bookTrans.byDate.records;
   const dateData = dates.map((date) => dateRecords[date]);
 
-  useEffect(() => {
-    dispatch(fetchTransactions());
-  }, [dispatch, bookId]);
+  // useEffect(() => {
+  //   dispatch(fetchTransactions());
+  // }, [dispatch, bookId]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

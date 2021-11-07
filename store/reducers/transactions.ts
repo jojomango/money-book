@@ -11,6 +11,8 @@ import {
 import { ADD_BOOK } from "../actions/books";
 import { genByDateState, genByMonthState } from "../../helpers/stateGenerator";
 
+import type { TransactionActions } from "../actions/transaction";
+
 type state = {
   [key: string]: Book;
 };
@@ -47,7 +49,7 @@ const initState: state = {
   "000": generateInitState(),
 };
 
-export default (state = initState, action: AnyAction) => {
+export default (state = initState, action: TransactionActions) => {
   switch (action.type) {
     case ADD_TRANSACTION: {
       const bookId = action.transaction.bookId;
